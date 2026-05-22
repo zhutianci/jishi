@@ -13,11 +13,7 @@ datasource db {
 
 // ============== 用户与权限 ==============
 
-enum Role {
-  // SQLite 不原生支持 enum，Prisma 会用 String 替代，运行时校验
-}
-
-// 三类角色：
+// 三类角色（SQLite 不支持 enum，用 String 存储，运行时校验）：
 // - ADMIN          超管，全权限
 // - FLOORMAT_MGR   脚垫负责人（黄威）
 // - WHEELCOVER_MGR 方向盘套负责人（朱苏婷）
