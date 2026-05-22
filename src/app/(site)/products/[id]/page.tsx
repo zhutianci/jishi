@@ -43,14 +43,14 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
     <div className="pt-28 md:pt-32 pb-12 md:pb-20">
       <div className="container">
         {/* 面包屑 */}
-        <nav className="text-sm text-ink-400 mb-8">
-          <Link href="/" className="hover:text-ink-900">首页</Link>
+        <nav className="text-sm text-gray-500 mb-8">
+          <Link href="/" className="hover:text-gray-900">首页</Link>
           <span className="mx-2">/</span>
-          <Link href={`/products?cat=${product.category.slug}`} className="hover:text-ink-900">
+          <Link href={`/products?cat=${product.category.slug}`} className="hover:text-gray-900">
             {product.category.name}
           </Link>
           <span className="mx-2">/</span>
-          <span className="text-ink-700">{product.name}</span>
+          <span className="text-gray-600">{product.name}</span>
         </nav>
 
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16">
@@ -62,16 +62,16 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
             <div className="text-brand-600 text-sm mb-2">{product.category.name}</div>
             <h1 className="heading-2 mb-4">{product.name}</h1>
             {product.shortDesc && (
-              <p className="text-ink-700 text-lg mb-6">{product.shortDesc}</p>
+              <p className="text-gray-600 text-lg mb-6">{product.shortDesc}</p>
             )}
 
             {/* 卖点 */}
             {features.length > 0 && (
-              <div className="space-y-3 mb-8 p-5 rounded-2xl bg-bone-50 border border-bone-200">
+              <div className="space-y-3 mb-8 p-5 rounded-2xl bg-gray-50 border border-gray-100">
                 {features.map((f, i) => (
                   <div key={i} className="flex items-start gap-3">
                     <span className="mt-1 text-brand-600">✓</span>
-                    <span className="text-ink-800">{f}</span>
+                    <span className="text-gray-800">{f}</span>
                   </div>
                 ))}
               </div>
@@ -80,18 +80,18 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
             {/* 材质 */}
             {product.material && (
               <div className="mb-6">
-                <div className="text-sm text-ink-400 mb-1">材质</div>
-                <div className="text-ink-900">{product.material}</div>
+                <div className="text-sm text-gray-500 mb-1">材质</div>
+                <div className="text-gray-900">{product.material}</div>
               </div>
             )}
 
             {/* 适配车型 */}
             {fitModels.length > 0 && (
               <div className="mb-8">
-                <div className="text-sm text-ink-400 mb-2">适配车型</div>
+                <div className="text-sm text-gray-500 mb-2">适配车型</div>
                 <div className="flex flex-wrap gap-2">
                   {fitModels.map((m, i) => (
-                    <span key={i} className="px-3 py-1.5 rounded-full bg-bone-100 text-sm">
+                    <span key={i} className="px-3 py-1.5 rounded-full bg-gray-100 text-sm">
                       {m}
                     </span>
                   ))}
@@ -115,7 +115,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
             <div className="card max-w-4xl">
               <div className="prose max-w-none">
                 {product.description.split('\n').filter(Boolean).map((p, i) => (
-                  <p key={i} className="text-ink-700 leading-relaxed mb-3">{p}</p>
+                  <p key={i} className="text-gray-700 leading-relaxed mb-3">{p}</p>
                 ))}
               </div>
             </div>
@@ -133,7 +133,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
                   href={`/products/${r.id}`}
                   className="card !p-3 hover:border-brand-500/50 transition-colors"
                 >
-                  <div className="aspect-square rounded-lg bg-bone-100 overflow-hidden mb-2">
+                  <div className="aspect-square rounded-lg bg-gray-100 overflow-hidden mb-2">
                     {r.coverImage && (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={r.coverImage} alt={r.name} className="w-full h-full object-cover" />

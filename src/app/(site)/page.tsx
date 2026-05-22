@@ -4,9 +4,6 @@ import { getSettings } from '@/lib/settings'
 import { safeJsonParse } from '@/lib/utils'
 import { HeroSection } from './_components/hero'
 import { ProductLineCard } from './_components/product-line-card'
-import { Reveal } from '@/components/site/reveal'
-import { Marquee } from '@/components/site/marquee'
-import { SectionLabel } from '@/components/site/section-label'
 
 export const dynamic = 'force-dynamic'
 
@@ -14,16 +11,21 @@ export default async function HomePage() {
   const settings = await getSettings()
 
   const [slides, categories, featuredCases, latestProducts] = await Promise.all([
-    prisma.heroSlide.findMany({ where: { active: true }, orderBy: { sortOrder: 'asc' } }),
+    prisma.heroSlide.findMany({
+      where: { active: true },
+      orderBy: { sortOrder: 'asc' },
+    }),
     prisma.category.findMany({
       orderBy: { sortOrder: 'asc' },
-      include: { _count: { select: { products: { where: { published: true } } } } },
+      include: {
+        _count: { select: { products: { where: { published: true } } } },
+      },
     }),
     prisma.case.findMany({
       where: { published: true, featured: true },
       include: { category: true },
       orderBy: { sortOrder: 'asc' },
-      take: 7,
+      take: 6,
     }),
     prisma.product.findMany({
       where: { published: true },
@@ -33,20 +35,8 @@ export default async function HomePage() {
     }),
   ])
 
-  const slogan = settings['company.slogan'] || '一针一线 · 精工于物'
-  const intro = settings['company.intro'] ||
-    '我们是位于江苏灌云的一家专注汽车内饰精工制造的小型工坊。从一卷皮料、一颗螺丝开始，我们坚持手工缝制与源头品控，为每一辆车带来独一无二的内饰升级。'
-
-  const marqueeItems = [
-    '汽车脚垫',
-    '手缝方向盘套',
-    '源头工厂',
-    '量身定制',
-    '匠心制造',
-    'Made in 灌云',
-    '每米 18-22 针',
-    '三道质检',
-  ]
+  const slogan = settings['company.slogan'] || '源头工厂 · 精工品质'
+  const companyShort = settings['company.shortName'] || '吉狮汽饰'
 
   return (
     <>
@@ -54,227 +44,161 @@ export default async function HomePage() {
         slides={slides.length > 0 ? slides : [{
           id: 0,
           title: slogan,
-          subtitle: '专注汽车脚垫与手缝方向盘套，源自江苏灌云的精工制造',
+          subtitle: `${companyShort} · 专业汽车脚垫与手缝方向盘套源头制造商`,
           imageUrl: '',
-          ctaText: '探索产品',
+          ctaText: '查看产品',
           ctaLink: '/products',
         }]}
       />
 
-      {/* Marquee 跑马灯 */}
-      <div className="border-y border-ink-100 bg-bone-50 py-5 md:py-6 text-ink-800 font-serif">
-        <Marquee
-          items={marqueeItems.map((t, i) => (
-            <span key={i} className="text-2xl md:text-3xl italic">
-              {t}
-            </span>
-          ))}
-        />
-      </div>
-
-      {/* 01 · 关于 — 编辑级排版 */}
-      <section className="section">
+      {/* 两大产品线入口 */}
+      <section className="py-12 md:py-20 lg:py-28">
         <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
-            <Reveal className="lg:col-span-5">
-              <SectionLabel number="01">关于吉狮</SectionLabel>
-              <h2 className="heading-2 mt-6 lg:mt-10 text-balance">
-                让每一辆车 <br />
-                <span className="italic font-light text-brand-600">都有故事可讲。</span>
-              </h2>
-            </Reveal>
-
-            <Reveal delay={0.1} className="lg:col-span-6 lg:col-start-7 self-end">
-              <p className="text-lg md:text-xl text-ink-700 leading-[1.75] font-serif max-w-xl">
-                {intro}
-              </p>
-              <div className="mt-8 flex items-center gap-6">
-                <Link href="/about" className="btn-ghost">
-                  阅读品牌故事
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </Link>
-              </div>
-            </Reveal>
+          <div className="text-center mb-10 md:mb-16">
+            <h2 className="heading-2 mb-4">
+              <span className="bg-gradient-to-r from-brand-400 to-gold-500 bg-clip-text text-transparent">
+                两大产品线
+              </span>
+            </h2>
+            <p className="text-gray-500 max-w-2xl mx-auto">
+              专注汽车内饰精工制造，为每位车主提供量身定制的高品质内饰配件
+            </p>
           </div>
 
-          {/* 数字证据 */}
-          <Reveal delay={0.2}>
-            <div className="mt-20 lg:mt-32 grid grid-cols-2 lg:grid-cols-4 border-t border-ink-100">
-              {[
-                { num: '04+', label: '年制造经验' },
-                { num: '02', label: '主营产品线' },
-                { num: '100%', label: '源头工厂' },
-                { num: '24h', label: '响应速度' },
-              ].map((stat, i) => (
-                <div
-                  key={i}
-                  className={`py-8 md:py-12 px-2 md:px-6 ${i !== 0 ? 'border-l border-ink-100' : ''} ${i >= 2 ? 'border-t lg:border-t-0 border-ink-100' : ''}`}
-                >
-                  <div className="font-serif text-4xl md:text-5xl lg:text-6xl text-ink-900 tracking-tight">{stat.num}</div>
-                  <div className="mt-2 text-xs md:text-sm font-mono uppercase tracking-widest text-ink-400">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* 02 · 产品线 */}
-      <section className="section bg-bone-100 relative overflow-hidden">
-        <div className="absolute inset-0 bg-noise opacity-30 mix-blend-multiply pointer-events-none" />
-        <div className="container relative">
-          <div className="flex items-end justify-between flex-wrap gap-6 mb-12 md:mb-16">
-            <Reveal>
-              <SectionLabel number="02">产品系列</SectionLabel>
-              <h2 className="heading-2 mt-6 max-w-2xl text-balance">
-                两条产品线 <br />
-                <span className="italic font-light text-brand-600">同一份匠心。</span>
-              </h2>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <Link href="/products" className="btn-ghost">
-                查看全部
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </Link>
-            </Reveal>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 lg:gap-20">
-            {categories.map((cat, i) => (
-              <Reveal key={cat.id} delay={i * 0.12}>
-                <ProductLineCard
-                  slug={cat.slug}
-                  name={cat.name}
-                  subtitle={cat.subtitle || ''}
-                  coverUrl={cat.coverUrl}
-                  count={cat._count.products}
-                  number={String(i + 1).padStart(2, '0')}
-                  align={(i % 2 + 1) as 1 | 2}
-                />
-              </Reveal>
+          <div className="grid md:grid-cols-2 gap-8">
+            {categories.map((cat) => (
+              <ProductLineCard
+                key={cat.id}
+                slug={cat.slug}
+                name={cat.name}
+                subtitle={cat.subtitle || ''}
+                coverUrl={cat.coverUrl}
+                count={cat._count.products}
+              />
             ))}
           </div>
         </div>
       </section>
 
-      {/* 03 · 案例（magazine grid） */}
+      {/* 精选案例 */}
       {featuredCases.length > 0 && (
-        <section className="section">
+        <section className="section bg-gradient-to-b from-transparent via-brand-900/5 to-transparent">
           <div className="container">
-            <div className="flex items-end justify-between flex-wrap gap-6 mb-12 md:mb-16">
-              <Reveal>
-                <SectionLabel number="03">真实案例</SectionLabel>
-                <h2 className="heading-2 mt-6 max-w-3xl text-balance">
-                  每一件作品 <br />
-                  <span className="italic font-light text-brand-600">都来自真实的车主。</span>
-                </h2>
-              </Reveal>
-              <Reveal delay={0.1}>
-                <Link href="/cases" className="btn-ghost">
-                  全部案例
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </Link>
-              </Reveal>
+            <div className="flex items-end justify-between mb-8 md:mb-12 flex-wrap gap-4">
+              <div>
+                <h2 className="heading-2 mb-2">精选案例</h2>
+                <p className="text-gray-500">真实客户实拍，所见即所得</p>
+              </div>
+              <Link href="/cases" className="text-brand-600 hover:text-brand-600 text-sm">
+                查看全部案例 →
+              </Link>
             </div>
 
-            <MagazineGrid cases={featuredCases} />
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+              {featuredCases.map((c) => (
+                <Link
+                  key={c.id}
+                  href={`/cases/${c.id}`}
+                  className="group relative aspect-square rounded-2xl overflow-hidden bg-gray-100"
+                >
+                  {c.coverImage ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={c.coverImage}
+                      alt={c.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  ) : (
+                    <div className="w-full h-full skeleton" />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 text-white">
+                    <div className="text-xs text-brand-300 mb-1">
+                      {c.category.name}
+                      {c.carBrand && ` · ${c.carBrand}${c.carModel || ''}`}
+                    </div>
+                    <div className="font-semibold text-sm md:text-base line-clamp-2">{c.title}</div>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
         </section>
       )}
 
-      {/* 04 · 工艺 */}
-      <section className="section bg-ink-900 text-bone-50 relative overflow-hidden">
-        <div className="absolute inset-0 bg-noise opacity-20 mix-blend-overlay pointer-events-none" />
-        <div className="container relative">
-          <Reveal>
-            <div className="flex items-center gap-3 text-xs font-mono uppercase tracking-widest text-bone-50/60">
-              <span className="inline-block w-8 h-px bg-bone-50/40" />
-              <span className="text-bone-50">04</span>
-              <span className="text-bone-50/30">/</span>
-              <span>工艺细节</span>
-            </div>
-            <h2 className="font-serif font-medium text-3xl sm:text-4xl md:text-5xl lg:text-6xl mt-6 text-bone-50 max-w-3xl leading-[1.05] tracking-[-0.02em] text-balance">
-              不在意细节的人 <br />
-              <span className="italic font-light text-brand-300">做不出值得的产品。</span>
-            </h2>
-          </Reveal>
-
-          <div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-14 lg:gap-20">
-            {[
-              { n: '01', t: '严选原料', d: '只用源头核心料，劣质料一律不进车间' },
-              { n: '02', t: '精准量裁', d: '按车型 1:1 数据建模激光裁剪，零误差适配' },
-              { n: '03', t: '手缝精工', d: '方向盘套全程手缝，每米 18-22 针均匀紧密' },
-            ].map((item, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div className="font-serif text-6xl md:text-7xl text-bone-50/20 mb-6">{item.n}</div>
-                <h3 className="font-serif text-2xl md:text-3xl text-bone-50 mb-3">{item.t}</h3>
-                <p className="text-bone-100/70 leading-relaxed">{item.d}</p>
-              </Reveal>
-            ))}
+      {/* 工艺亮点 */}
+      <section className="py-12 md:py-20 lg:py-28">
+        <div className="container">
+          <div className="text-center mb-10 md:mb-16">
+            <h2 className="heading-2 mb-4">为什么选择吉狮</h2>
+            <p className="text-gray-500">从原料到成品，每个环节都严格把控</p>
           </div>
 
-          <Reveal delay={0.3}>
-            <div className="mt-16 md:mt-24 flex justify-center md:justify-start">
-              <Link
-                href="/craft"
-                className="inline-flex items-center gap-3 text-sm font-mono uppercase tracking-widest text-bone-50 hover:gap-5 transition-all duration-500 group"
-              >
-                完整工艺流程
-                <span className="block w-12 h-px bg-bone-50 group-hover:w-20 transition-all duration-500" />
-              </Link>
-            </div>
-          </Reveal>
+          <div className="grid md:grid-cols-3 gap-6">
+            <FeatureCard
+              icon="🏭"
+              title="源头工厂"
+              desc="自有车间、自有团队，省去中间环节，价格优势明显"
+            />
+            <FeatureCard
+              icon="✋"
+              title="精工手作"
+              desc="方向盘套每一针每一线都是熟练工匠手缝，细节经得起放大检查"
+            />
+            <FeatureCard
+              icon="🛡️"
+              title="品质保证"
+              desc="原材料层层筛选，成品三道质检，售后无忧"
+            />
+          </div>
+
+          <div className="text-center mt-12">
+            <Link href="/craft" className="btn-secondary">
+              了解更多工艺细节 →
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* 05 · 最新产品 */}
+      {/* 最新产品 */}
       {latestProducts.length > 0 && (
-        <section className="section">
+        <section className="py-12 md:py-20 lg:py-28">
           <div className="container">
-            <div className="flex items-end justify-between flex-wrap gap-6 mb-12 md:mb-16">
-              <Reveal>
-                <SectionLabel number="05">最新产品</SectionLabel>
-                <h2 className="heading-2 mt-6 max-w-2xl text-balance">
-                  最近上架 <br />
-                  <span className="italic font-light text-brand-600">值得一看的新品。</span>
-                </h2>
-              </Reveal>
-              <Reveal delay={0.1}>
-                <Link href="/products" className="btn-ghost">
-                  全部产品
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </Link>
-              </Reveal>
+            <div className="flex items-end justify-between mb-8 md:mb-12 flex-wrap gap-4">
+              <div>
+                <h2 className="heading-2 mb-2">最新产品</h2>
+                <p className="text-gray-500">查看我们最近上架的新品</p>
+              </div>
+              <Link href="/products" className="text-brand-600 hover:text-brand-600 text-sm">
+                查看全部产品 →
+              </Link>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-10 md:gap-x-6 md:gap-y-14">
-              {latestProducts.map((p, i) => {
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+              {latestProducts.map((p) => {
                 const features = safeJsonParse<string[]>(p.features, [])
                 return (
-                  <Reveal key={p.id} delay={i * 0.08}>
-                    <Link href={`/products/${p.id}`} className="group block">
-                      <div className="aspect-square bg-ink-100 overflow-hidden mb-4 relative">
-                        {p.coverImage ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img src={p.coverImage} alt={p.name} className="w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105" />
-                        ) : (
-                          <div className="w-full h-full skeleton" />
-                        )}
-                        <div className="absolute inset-0 bg-noise opacity-10 mix-blend-overlay pointer-events-none" />
-                      </div>
-                      <div className="text-[10px] font-mono uppercase tracking-widest text-ink-400 mb-2">{p.category.name}</div>
-                      <div className="font-serif text-lg md:text-xl text-ink-900 leading-snug">{p.name}</div>
-                      {features[0] && <div className="mt-1.5 text-xs text-ink-400 line-clamp-1">{features[0]}</div>}
-                    </Link>
-                  </Reveal>
+                  <Link
+                    key={p.id}
+                    href={`/products/${p.id}`}
+                    className="group card !p-4 hover:border-brand-500/50 transition-colors"
+                  >
+                    <div className="aspect-square rounded-lg bg-gray-100 overflow-hidden mb-3">
+                      {p.coverImage ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={p.coverImage}
+                          alt={p.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                        />
+                      ) : (
+                        <div className="w-full h-full skeleton" />
+                      )}
+                    </div>
+                    <div className="text-xs text-brand-600 mb-1">{p.category.name}</div>
+                    <div className="font-medium text-sm line-clamp-2 mb-1">{p.name}</div>
+                    {features[0] && <div className="text-xs text-gray-500 line-clamp-1">{features[0]}</div>}
+                  </Link>
                 )
               })}
             </div>
@@ -283,102 +207,32 @@ export default async function HomePage() {
       )}
 
       {/* CTA */}
-      <section className="section bg-bone-100 relative overflow-hidden border-y border-ink-100">
-        <div className="absolute inset-0 bg-noise opacity-30 mix-blend-multiply pointer-events-none" />
-        <div className="container relative">
-          <Reveal>
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="flex items-center justify-center gap-3 text-xs font-mono uppercase tracking-widest text-ink-400 mb-6">
-                <span className="inline-block w-8 h-px bg-ink-400" />
-                <span className="text-ink-700">06</span>
-                <span className="text-ink-300">/</span>
-                <span>联系合作</span>
-              </div>
-              <h2 className="font-serif font-medium text-3xl sm:text-5xl md:text-6xl lg:text-7xl mt-2 text-ink-900 leading-[1.05] tracking-[-0.025em] text-balance">
-                想为您的车 <br />
-                做点 <span className="italic font-light text-brand-600">不一样的事</span>。
-              </h2>
-              <p className="mt-8 text-base md:text-lg text-ink-700 max-w-xl mx-auto leading-relaxed">
-                添加对应业务的微信，从需求沟通到方案出图，最快当天给您答复。
+      <section className="py-12 md:py-20 lg:py-28">
+        <div className="container">
+          <div className="card !p-8 md:!p-16 text-center relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-brand-900/30 to-transparent pointer-events-none" />
+            <div className="relative">
+              <h2 className="heading-2 mb-4">联系我们获取报价</h2>
+              <p className="text-gray-600 mb-8 max-w-xl mx-auto">
+                无论是大批量采购还是单台定制，添加微信都可以快速沟通需求与方案
               </p>
-              <div className="mt-10 md:mt-12 flex items-center justify-center gap-4 flex-wrap">
-                <Link href="/contact" className="btn-primary">
-                  立即联系
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </Link>
-                <Link href="/cases" className="btn-secondary">
-                  看更多案例
-                </Link>
-              </div>
+              <Link href="/contact" className="btn-primary">
+                添加客服微信
+              </Link>
             </div>
-          </Reveal>
+          </div>
         </div>
       </section>
     </>
   )
 }
 
-/** Magazine 风格的案例网格（不对称） */
-function MagazineGrid({ cases }: { cases: Array<{ id: number; title: string; coverImage: string | null; carBrand: string | null; carModel: string | null; category: { name: string } }> }) {
-  const [big, ...rest] = cases
+function FeatureCard({ icon, title, desc }: { icon: string; title: string; desc: string }) {
   return (
-    <div className="grid grid-cols-12 gap-3 md:gap-6 auto-rows-[140px] md:auto-rows-[180px] lg:auto-rows-[220px]">
-      {big && <CaseCell c={big} className="col-span-12 md:col-span-8 row-span-2" featured />}
-      {rest.slice(0, 1).map((c) => (
-        <CaseCell key={c.id} c={c} className="col-span-6 md:col-span-4" />
-      ))}
-      {rest.slice(1, 2).map((c) => (
-        <CaseCell key={c.id} c={c} className="col-span-6 md:col-span-4" />
-      ))}
-      {rest.slice(2, 5).map((c) => (
-        <CaseCell key={c.id} c={c} className="col-span-6 md:col-span-4 row-span-1" />
-      ))}
-      {rest.slice(5, 6).map((c) => (
-        <CaseCell key={c.id} c={c} className="col-span-12 md:col-span-12 row-span-1" />
-      ))}
+    <div className="card text-center">
+      <div className="text-5xl mb-4">{icon}</div>
+      <h3 className="font-semibold text-lg mb-2">{title}</h3>
+      <p className="text-sm text-gray-500 leading-relaxed">{desc}</p>
     </div>
-  )
-}
-
-function CaseCell({
-  c,
-  className,
-  featured,
-}: {
-  c: { id: number; title: string; coverImage: string | null; carBrand: string | null; carModel: string | null; category: { name: string } }
-  className: string
-  featured?: boolean
-}) {
-  return (
-    <Link href={`/cases/${c.id}`} className={`group relative overflow-hidden bg-ink-100 ${className}`}>
-      {c.coverImage ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={c.coverImage}
-          alt={c.title}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-105"
-        />
-      ) : (
-        <div className="w-full h-full skeleton" />
-      )}
-      <div className="absolute inset-0 bg-gradient-to-t from-ink-900/90 via-ink-900/20 to-transparent" />
-      <div className="absolute inset-0 bg-noise opacity-10 mix-blend-overlay pointer-events-none" />
-
-      <div className="absolute top-3 left-3 md:top-5 md:left-5 text-[10px] font-mono uppercase tracking-widest text-bone-50/80">
-        {c.category.name}
-      </div>
-      <div className="absolute bottom-3 left-3 right-3 md:bottom-5 md:left-5 md:right-5 text-bone-50">
-        {c.carBrand && (
-          <div className="text-[10px] md:text-xs font-mono uppercase tracking-widest text-brand-300 mb-1">
-            {c.carBrand} {c.carModel || ''}
-          </div>
-        )}
-        <div className={`font-serif ${featured ? 'text-xl md:text-3xl lg:text-4xl' : 'text-sm md:text-lg'} leading-snug line-clamp-2`}>
-          {c.title}
-        </div>
-      </div>
-    </Link>
   )
 }

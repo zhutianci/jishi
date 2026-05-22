@@ -34,12 +34,12 @@ export default async function CaseDetailPage({ params }: { params: { id: string 
   return (
     <div className="pt-28 md:pt-32 pb-12 md:pb-20">
       <div className="container">
-        <nav className="text-sm text-ink-400 mb-8">
-          <Link href="/" className="hover:text-ink-900">首页</Link>
+        <nav className="text-sm text-gray-500 mb-8">
+          <Link href="/" className="hover:text-gray-900">首页</Link>
           <span className="mx-2">/</span>
-          <Link href="/cases" className="hover:text-ink-900">案例展示</Link>
+          <Link href="/cases" className="hover:text-gray-900">案例展示</Link>
           <span className="mx-2">/</span>
-          <span className="text-ink-700">{item.title}</span>
+          <span className="text-gray-600">{item.title}</span>
         </nav>
 
         <div className="grid lg:grid-cols-3 gap-10">
@@ -61,12 +61,12 @@ export default async function CaseDetailPage({ params }: { params: { id: string 
               </div>
               <h1 className="heading-3 mb-3">{item.title}</h1>
               {(item.carBrand || item.carModel) && (
-                <div className="text-ink-700">
-                  车型：<span className="text-ink-900 font-medium">{[item.carBrand, item.carModel].filter(Boolean).join(' ')}</span>
+                <div className="text-gray-600">
+                  车型：<span className="text-gray-900 font-medium">{[item.carBrand, item.carModel].filter(Boolean).join(' ')}</span>
                 </div>
               )}
               {item.completedAt && (
-                <div className="text-ink-400 text-sm mt-1">
+                <div className="text-gray-500 text-sm mt-1">
                   完成时间：{formatDate(item.completedAt)}
                 </div>
               )}
@@ -75,14 +75,14 @@ export default async function CaseDetailPage({ params }: { params: { id: string 
             {item.description && (
               <div>
                 <h3 className="font-semibold mb-2">案例描述</h3>
-                <div className="text-ink-700 leading-relaxed whitespace-pre-line">{item.description}</div>
+                <div className="text-gray-700 leading-relaxed whitespace-pre-line">{item.description}</div>
               </div>
             )}
 
             {item.customerFeedback && (
               <div className="card !p-5">
                 <div className="text-sm text-brand-600 mb-2">客户反馈</div>
-                <p className="text-ink-800 leading-relaxed italic">
+                <p className="text-gray-800 leading-relaxed italic">
                   &ldquo;{item.customerFeedback}&rdquo;
                 </p>
               </div>
@@ -105,7 +105,7 @@ export default async function CaseDetailPage({ params }: { params: { id: string 
                 <Link
                   key={r.id}
                   href={`/cases/${r.id}`}
-                  className="aspect-square rounded-xl overflow-hidden bg-bone-100 group relative"
+                  className="aspect-square rounded-xl overflow-hidden bg-gray-100 group relative"
                 >
                   {r.coverImage && (
                     // eslint-disable-next-line @next/next/no-img-element
