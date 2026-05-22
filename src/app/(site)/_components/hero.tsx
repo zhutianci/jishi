@@ -28,7 +28,8 @@ export function HeroSection({ slides }: { slides: Slide[] }) {
   const hasImage = !!current.imageUrl
 
   return (
-    <section className="relative h-screen min-h-[600px] max-h-[900px] overflow-hidden text-white">
+    // 移动端高度更紧凑（不再吞屏一整屏，便于看到下方内容），桌面端保持沉浸式
+    <section className="relative h-[70vh] min-h-[460px] max-h-[640px] md:h-screen md:min-h-[600px] md:max-h-[900px] overflow-hidden text-white">
       {/* 背景 */}
       <AnimatePresence mode="wait">
         <motion.div
@@ -44,7 +45,9 @@ export function HeroSection({ slides }: { slides: Slide[] }) {
             <img
               src={current.imageUrl}
               alt=""
-              className="w-full h-full object-cover"
+              // object-cover 在手机上会裁掉很多；用 object-position center 居中裁剪
+              // 由于手机屏幕窄高，hero 高度也降低，图片裁切就不那么夸张了
+              className="w-full h-full object-cover object-center"
             />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-brand-800 via-brand-900 to-stone-900" />
@@ -52,33 +55,33 @@ export function HeroSection({ slides }: { slides: Slide[] }) {
         </motion.div>
       </AnimatePresence>
 
-      {/* 暗色蒙版：确保文字始终清晰 */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/30" />
+      {/* 暗色蒙版 */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/20" />
 
-      {/* 内容 */}
-      <div className="relative h-full flex items-center">
+      {/* 内容：移动端从底部偏上开始（与暗蒙版深处对齐，可读性好） */}
+      <div className="relative h-full flex items-end md:items-center pb-16 md:pb-0">
         <div className="container">
           <AnimatePresence mode="wait">
             <motion.div
               key={current.id}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -30 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.6, delay: 0.15 }}
               className="max-w-3xl"
             >
               {current.title && (
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight mb-6 text-white drop-shadow">
+                <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight mb-3 md:mb-6 text-white drop-shadow">
                   {current.title}
                 </h1>
               )}
               {current.subtitle && (
-                <p className="text-lg md:text-xl text-white/85 mb-8 max-w-2xl leading-relaxed drop-shadow">
+                <p className="text-base sm:text-lg md:text-xl text-white/85 mb-5 md:mb-8 max-w-2xl leading-relaxed drop-shadow line-clamp-3">
                   {current.subtitle}
                 </p>
               )}
               {current.ctaText && current.ctaLink && (
-                <Link href={current.ctaLink} className="btn-primary text-base">
+                <Link href={current.ctaLink} className="btn-primary text-sm md:text-base">
                   {current.ctaText} →
                 </Link>
               )}
@@ -89,23 +92,17 @@ export function HeroSection({ slides }: { slides: Slide[] }) {
 
       {/* 指示器 */}
       {total > 1 && (
-        <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-2">
+        <div className="absolute bottom-4 md:bottom-8 left-0 right-0 flex justify-center gap-2 z-10">
           {slides.map((_, i) => (
             <button
               key={i}
               onClick={() => setIdx(i)}
-              className={`h-1 rounded-full transition-all ${i === idx ? 'w-12 bg-white' : 'w-6 bg-white/40 hover:bg-white/70'}`}
+              className={`h-1 rounded-full transition-all ${i === idx ? 'w-10 md:w-12 bg-white' : 'w-5 md:w-6 bg-white/40 hover:bg-white/70'}`}
               aria-label={`轮播 ${i + 1}`}
             />
           ))}
         </div>
       )}
-
-      {/* 滚动提示 */}
-      <div className="absolute bottom-4 right-8 hidden md:flex flex-col items-center gap-2 text-white/60 text-xs">
-        <span>下滑探索</span>
-        <div className="w-px h-12 bg-gradient-to-b from-white/60 to-transparent animate-pulse" />
-      </div>
     </section>
   )
 }

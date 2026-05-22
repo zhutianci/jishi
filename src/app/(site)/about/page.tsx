@@ -25,7 +25,7 @@ export default async function AboutPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="pt-32 pb-20">
+      <section className="pt-28 md:pt-32 pb-12 md:pb-20">
         <div className="container">
           <div className="max-w-3xl">
             <div className="text-brand-600 mb-3">关于我们</div>

@@ -14,9 +14,9 @@ export default async function ContactPage() {
   const email = settings['contact.company.email']
 
   return (
-    <div className="pt-32 pb-20">
+    <div className="pt-28 md:pt-32 pb-12 md:pb-20">
       <div className="container">
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 md:mb-16">
           <div className="text-brand-600 mb-2">联系我们</div>
           <h1 className="heading-1 mb-6">期待与您合作</h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">

@@ -25,7 +25,7 @@ export default async function ProductsPage({
   })
 
   return (
-    <div className="pt-32 pb-20">
+    <div className="pt-28 md:pt-32 pb-12 md:pb-20">
       <div className="container">
         {/* Header */}
         <div className="mb-12">
@@ -65,7 +65,7 @@ export default async function ProductsPage({
             该分类暂无产品
           </div>
         ) : (
-          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
             {products.map((p) => {
               const features = safeJsonParse<string[]>(p.features, [])
               return (

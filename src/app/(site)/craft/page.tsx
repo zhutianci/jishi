@@ -11,7 +11,7 @@ export default async function CraftPage() {
   })
 
   return (
-    <div className="pt-32 pb-20">
+    <div className="pt-28 md:pt-32 pb-12 md:pb-20">
       <div className="container">
         <div className="max-w-3xl mb-16">
           <div className="text-brand-600 mb-2">工艺优势</div>

@@ -52,9 +52,9 @@ export default async function HomePage() {
       />
 
       {/* 两大产品线入口 */}
-      <section className="section">
+      <section className="py-12 md:py-20 lg:py-28">
         <div className="container">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10 md:mb-16">
             <h2 className="heading-2 mb-4">
               <span className="bg-gradient-to-r from-brand-400 to-gold-500 bg-clip-text text-transparent">
                 两大产品线
@@ -84,7 +84,7 @@ export default async function HomePage() {
       {featuredCases.length > 0 && (
         <section className="section bg-gradient-to-b from-transparent via-brand-900/5 to-transparent">
           <div className="container">
-            <div className="flex items-end justify-between mb-12 flex-wrap gap-4">
+            <div className="flex items-end justify-between mb-8 md:mb-12 flex-wrap gap-4">
               <div>
                 <h2 className="heading-2 mb-2">精选案例</h2>
                 <p className="text-gray-500">真实客户实拍，所见即所得</p>
@@ -94,7 +94,7 @@ export default async function HomePage() {
               </Link>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
               {featuredCases.map((c) => (
                 <Link
                   key={c.id}
@@ -127,9 +127,9 @@ export default async function HomePage() {
       )}
 
       {/* 工艺亮点 */}
-      <section className="section">
+      <section className="py-12 md:py-20 lg:py-28">
         <div className="container">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10 md:mb-16">
             <h2 className="heading-2 mb-4">为什么选择吉狮</h2>
             <p className="text-gray-500">从原料到成品，每个环节都严格把控</p>
           </div>
@@ -162,9 +162,9 @@ export default async function HomePage() {
 
       {/* 最新产品 */}
       {latestProducts.length > 0 && (
-        <section className="section">
+        <section className="py-12 md:py-20 lg:py-28">
           <div className="container">
-            <div className="flex items-end justify-between mb-12 flex-wrap gap-4">
+            <div className="flex items-end justify-between mb-8 md:mb-12 flex-wrap gap-4">
               <div>
                 <h2 className="heading-2 mb-2">最新产品</h2>
                 <p className="text-gray-500">查看我们最近上架的新品</p>
@@ -174,7 +174,7 @@ export default async function HomePage() {
               </Link>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
               {latestProducts.map((p) => {
                 const features = safeJsonParse<string[]>(p.features, [])
                 return (
@@ -207,7 +207,7 @@ export default async function HomePage() {
       )}
 
       {/* CTA */}
-      <section className="section">
+      <section className="py-12 md:py-20 lg:py-28">
         <div className="container">
           <div className="card !p-8 md:!p-16 text-center relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-brand-900/30 to-transparent pointer-events-none" />

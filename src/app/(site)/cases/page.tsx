@@ -37,7 +37,7 @@ export default async function CasesPage({
   const brands = allBrands.map((b) => b.carBrand).filter(Boolean) as string[]
 
   return (
-    <div className="pt-32 pb-20">
+    <div className="pt-28 md:pt-32 pb-12 md:pb-20">
       <div className="container">
         <div className="mb-12">
           <div className="text-brand-600 mb-2">案例展示</div>
@@ -96,7 +96,7 @@ export default async function CasesPage({
         {cases.length === 0 ? (
           <div className="card text-center py-20 text-gray-500">暂无符合条件的案例</div>
         ) : (
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
             {cases.map((c) => (
               <Link
                 key={c.id}

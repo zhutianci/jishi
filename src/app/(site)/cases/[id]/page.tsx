@@ -30,7 +30,7 @@ export default async function CaseDetailPage({ params }: { params: { id: string 
   })
 
   return (
-    <div className="pt-32 pb-20">
+    <div className="pt-28 md:pt-32 pb-12 md:pb-20">
       <div className="container">
         <nav className="text-sm text-gray-500 mb-8">
           <Link href="/" className="hover:text-gray-900">首页</Link>
@@ -96,7 +96,7 @@ export default async function CaseDetailPage({ params }: { params: { id: string 
 
         {/* 相关案例 */}
         {related.length > 0 && (
-          <section className="mt-20">
+          <section className="mt-12 md:mt-20">
             <h2 className="heading-3 mb-6">同类案例</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
               {related.map((r) => (

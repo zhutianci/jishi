@@ -39,7 +39,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
   })
 
   return (
-    <div className="pt-32 pb-20">
+    <div className="pt-28 md:pt-32 pb-12 md:pb-20">
       <div className="container">
         {/* 面包屑 */}
         <nav className="text-sm text-gray-500 mb-8">
@@ -109,7 +109,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
 
         {/* 详细描述 */}
         {product.description && (
-          <section className="mt-20">
+          <section className="mt-12 md:mt-20">
             <h2 className="heading-3 mb-6">产品详情</h2>
             <div className="card max-w-4xl">
               <div className="prose max-w-none">
@@ -123,7 +123,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
 
         {/* 相关产品 */}
         {related.length > 0 && (
-          <section className="mt-20">
+          <section className="mt-12 md:mt-20">
             <h2 className="heading-3 mb-6">同类产品</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {related.map((r) => (
