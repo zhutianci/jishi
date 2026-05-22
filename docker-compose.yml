@@ -1,0 +1,58 @@
+services:
+  # Next.js 应用（SQLite，无独立数据库容器）
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jishi-app
+    restart: unless-stopped
+    expose:
+      - "3000"
+    environment:
+      - DATABASE_URL=file:/app/data/jishi.db
+      - JWT_SECRET=${JWT_SECRET}
+      - NEXT_PUBLIC_APP_URL=${APP_URL}
+      - NODE_ENV=production
+    volumes:
+      # SQLite 文件（持久化）
+      - jishi_data:/app/data
+      # 上传图片（持久化）
+      - jishi_uploads:/app/public/uploads
+    networks:
+      - jishi-net
+
+  # Nginx 反向代理
+  # - cloudflared 通过容器网络访问 nginx:80（用户走域名时）
+  # - 81 端口对外暴露，供 IP 直接访问（与 beiguo 的 80 端口避开冲突）
+  nginx:
+    image: nginx:alpine
+    container_name: jishi-nginx
+    restart: unless-stopped
+    ports:
+      - "81:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - jishi_uploads:/var/www/uploads:ro
+    depends_on:
+      - app
+    networks:
+      - jishi-net
+
+  # Cloudflare Tunnel 客户端（出站连接 Cloudflare，避开阿里云未备案拦截）
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: jishi-cloudflared
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
+    depends_on:
+      - nginx
+    networks:
+      - jishi-net
+
+networks:
+  jishi-net:
+    driver: bridge
+
+volumes:
+  jishi_data:
+  jishi_uploads:

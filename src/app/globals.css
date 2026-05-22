@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 10 10 11;
+    --foreground: 250 250 252;
+  }
+
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #0a0a0b;
+    color: #fafafc;
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
+  }
+
+  ::selection {
+    background-color: rgba(207, 74, 64, 0.3);
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/[0.03] backdrop-blur-md border border-white/[0.08];
+  }
+
+  .glass-strong {
+    @apply bg-white/[0.06] backdrop-blur-lg border border-white/[0.12];
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-medium
+           bg-gradient-to-br from-brand-500 to-brand-700 hover:from-brand-400 hover:to-brand-600
+           text-white shadow-lg shadow-brand-900/30 transition-all duration-200
+           hover:shadow-xl hover:shadow-brand-900/40 hover:-translate-y-0.5;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-medium
+           bg-white/5 hover:bg-white/10 border border-white/10
+           text-white/90 transition-all duration-200;
+  }
+
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-medium
+           bg-gradient-to-br from-gold-400 to-gold-600 hover:from-gold-400 hover:to-gold-500
+           text-ink-950 transition-all duration-200
+           hover:shadow-lg hover:-translate-y-0.5;
+  }
+
+  .container-tight {
+    @apply container max-w-6xl;
+  }
+
+  .section {
+    @apply py-20 md:py-28;
+  }
+
+  .heading-1 {
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight;
+  }
+
+  .heading-2 {
+    @apply text-3xl md:text-4xl font-bold tracking-tight;
+  }
+
+  .heading-3 {
+    @apply text-2xl md:text-3xl font-semibold;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .input {
+    @apply w-full rounded-lg bg-white/5 border border-white/10 px-4 py-2.5 text-sm
+           text-white placeholder-white/30 outline-none transition-colors
+           focus:border-brand-500 focus:bg-white/10;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-white/70 mb-2;
+  }
+
+  .card {
+    @apply glass rounded-2xl p-6;
+  }
+}
+
+/* 滚动条 */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #0a0a0b; }
+::-webkit-scrollbar-thumb { background: #252530; border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: #3a3a47; }
+
+/* 占位骨架动画 */
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #1a1a1f 0%, #252530 50%, #1a1a1f 100%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+}

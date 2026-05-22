@@ -1,0 +1,144 @@
+// 灌云吉狮汽车饰品有限公司 - 数据模型
+// SQLite 单文件数据库，挂在 docker volume 中
+
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ============== 用户与权限 ==============
+
+enum Role {
+  // SQLite 不原生支持 enum，Prisma 会用 String 替代，运行时校验
+}
+
+// 三类角色：
+// - ADMIN          超管，全权限
+// - FLOORMAT_MGR   脚垫负责人（黄威）
+// - WHEELCOVER_MGR 方向盘套负责人（朱苏婷）
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         String   @default("ADMIN") // ADMIN | FLOORMAT_MGR | WHEELCOVER_MGR
+  active       Boolean  @default(true)
+  lastLoginAt  DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// ============== 产品 ==============
+
+// 产品大类（脚垫 / 方向盘套）—— 固定 2 个，与角色权限挂钩
+model Category {
+  id        Int       @id @default(autoincrement())
+  slug      String    @unique  // floormat | wheelcover
+  name      String              // 汽车脚垫 / 手缝方向盘套
+  subtitle  String?             // 副标题
+  icon      String?             // 图标路径
+  coverUrl  String?             // 分类封面图
+  sortOrder Int       @default(0)
+  products  Product[]
+  cases     Case[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Product {
+  id             Int      @id @default(autoincrement())
+  categoryId     Int
+  category       Category @relation(fields: [categoryId], references: [id])
+
+  name           String              // 产品名称
+  slug           String   @unique    // URL 友好的唯一标识
+  material       String?             // 材质：TPE / 真皮 / 丝圈 ...
+  fitCarModels   String?             // 适配车型（逗号分隔字符串，便于检索）
+  shortDesc      String?             // 简短描述（卡片用）
+  description    String?             // 详细描述（富文本/Markdown）
+  features       String?             // 卖点列表（JSON 字符串：["卖点1","卖点2"]）
+
+  coverImage     String?             // 主图 URL
+  images         String?             // 详情图组（JSON 字符串数组）
+
+  published      Boolean  @default(true)
+  sortOrder      Int      @default(0)
+  views          Int      @default(0)
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([categoryId, published, sortOrder])
+}
+
+// ============== 案例 ==============
+
+model Case {
+  id             Int      @id @default(autoincrement())
+  categoryId     Int
+  category       Category @relation(fields: [categoryId], references: [id])
+
+  title          String              // 案例标题
+  carBrand       String?             // 车品牌 奥迪/宝马/...
+  carModel       String?             // 具体车型 A6L / 5系
+  customerFeedback String?           // 客户反馈
+  description    String?             // 案例描述
+
+  coverImage     String?
+  images         String?             // 多图（JSON 字符串数组）
+
+  completedAt    DateTime?           // 完成时间
+  published      Boolean  @default(true)
+  featured       Boolean  @default(false) // 是否首页精选
+  sortOrder      Int      @default(0)
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([categoryId, published, sortOrder])
+  @@index([featured, published])
+}
+
+// ============== 公司信息 / 联系方式 / 站点设置 ==============
+
+// 通用 KV 存储：所有"全站设置"都存这里，避免到处建表
+// 例：company.name、company.address、contact.huangwei.wechatQr、hero.title ...
+model SiteSetting {
+  key       String   @id     // 例 "company.name", "contact.huangwei.wechatQr"
+  value     String           // 值（文本/JSON 字符串）
+  type      String   @default("text") // text | image | json | richtext
+  group     String   @default("general") // company | contact | hero | seo
+  label     String?           // 后台展示用的标签
+  updatedAt DateTime @updatedAt
+}
+
+// Hero 轮播图（首页大图）
+model HeroSlide {
+  id         Int      @id @default(autoincrement())
+  title      String?
+  subtitle   String?
+  imageUrl   String              // 背景大图
+  ctaText    String?             // 按钮文字
+  ctaLink    String?             // 按钮链接
+  sortOrder  Int      @default(0)
+  active     Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// 工厂相册（关于我们 / 工艺优势页面用）
+model GalleryImage {
+  id         Int      @id @default(autoincrement())
+  category   String              // factory | craft | team | certificate
+  title      String?
+  imageUrl   String
+  sortOrder  Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  @@index([category, sortOrder])
+}
