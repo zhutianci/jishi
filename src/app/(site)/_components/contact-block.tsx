@@ -19,28 +19,28 @@ export function ContactBlock({ settings, prefix, productLine }: Props) {
   return (
     <>
       <div className="card !p-5 space-y-3">
-        <div className="text-sm text-white/60">{productLine}业务联系人</div>
+        <div className="text-sm text-gray-600">{productLine}业务联系人</div>
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-lg font-semibold">
             {name?.[0] || '?'}
           </div>
           <div>
             <div className="font-semibold">{name || '负责人'}</div>
-            <div className="text-xs text-white/40">{productLine}业务专员</div>
+            <div className="text-xs text-gray-500">{productLine}业务专员</div>
           </div>
         </div>
 
         <div className="space-y-2 text-sm">
           {phone && (
             <div className="flex items-center gap-2">
-              <span className="text-white/40">📞 电话</span>
-              <a href={`tel:${phone}`} className="text-brand-300 hover:underline">{phone}</a>
+              <span className="text-gray-500">📞 电话</span>
+              <a href={`tel:${phone}`} className="text-brand-600 hover:underline">{phone}</a>
             </div>
           )}
           {wechat && (
             <div className="flex items-center gap-2">
-              <span className="text-white/40">💬 微信号</span>
-              <span className="text-white/80">{wechat}</span>
+              <span className="text-gray-500">💬 微信号</span>
+              <span className="text-gray-800">{wechat}</span>
             </div>
           )}
         </div>
@@ -59,7 +59,7 @@ export function ContactBlock({ settings, prefix, productLine }: Props) {
         </div>
 
         {!phone && !qr && (
-          <p className="text-xs text-white/30 italic">联系方式尚未在后台配置</p>
+          <p className="text-xs text-gray-400 italic">联系方式尚未在后台配置</p>
         )}
       </div>
 
@@ -69,15 +69,15 @@ export function ContactBlock({ settings, prefix, productLine }: Props) {
           onClick={() => setQrOpen(false)}
         >
           <div
-            className="bg-white rounded-3xl p-6 max-w-sm w-full text-center text-ink-900"
+            className="bg-white rounded-3xl p-6 max-w-sm w-full text-center text-gray-900"
             onClick={(e) => e.stopPropagation()}
           >
             <h3 className="text-lg font-bold mb-2">{name} 的微信</h3>
-            <p className="text-sm text-ink-600 mb-4">长按二维码识别或扫一扫</p>
+            <p className="text-sm text-gray-600 mb-4">长按二维码识别或扫一扫</p>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={qr} alt="微信二维码" className="w-full rounded-xl" />
-            {wechat && <p className="mt-4 text-sm text-ink-600">微信号：<span className="font-semibold">{wechat}</span></p>}
-            <button onClick={() => setQrOpen(false)} className="mt-4 px-6 py-2 rounded-full bg-ink-900 text-white">关闭</button>
+            {wechat && <p className="mt-4 text-sm text-gray-600">微信号：<span className="font-semibold">{wechat}</span></p>}
+            <button onClick={() => setQrOpen(false)} className="mt-4 px-6 py-2 rounded-full bg-gray-900 text-white hover:bg-gray-800">关闭</button>
           </div>
         </div>
       )}

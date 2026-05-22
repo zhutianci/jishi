@@ -60,7 +60,7 @@ export default function CasesPage() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold">案例管理</h1>
-          <p className="text-sm text-white/40 mt-1">共 {items.length} 个案例</p>
+          <p className="text-sm text-gray-500 mt-1">共 {items.length} 个案例</p>
         </div>
         <Link href="/admin/cases/new" className="btn-primary">+ 新增案例</Link>
       </div>
@@ -68,7 +68,7 @@ export default function CasesPage() {
       <div className="flex flex-wrap gap-2">
         <button
           onClick={() => setFilterCat('')}
-          className={`px-4 py-1.5 rounded-full text-sm ${filterCat === '' ? 'bg-brand-500 text-white' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}
+          className={`px-4 py-1.5 rounded-full text-sm ${filterCat === '' ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
         >
           全部
         </button>
@@ -76,7 +76,7 @@ export default function CasesPage() {
           <button
             key={c.id}
             onClick={() => setFilterCat(String(c.id))}
-            className={`px-4 py-1.5 rounded-full text-sm ${filterCat === String(c.id) ? 'bg-brand-500 text-white' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}
+            className={`px-4 py-1.5 rounded-full text-sm ${filterCat === String(c.id) ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
           >
             {c.name}
           </button>
@@ -85,16 +85,16 @@ export default function CasesPage() {
 
       <div className="card !p-0 overflow-hidden">
         {loading ? (
-          <div className="py-20 text-center text-white/40">加载中...</div>
+          <div className="py-20 text-center text-gray-500">加载中...</div>
         ) : items.length === 0 ? (
-          <div className="py-20 text-center text-white/40">
-            还没有案例，<Link href="/admin/cases/new" className="text-brand-400 hover:underline">点击新增</Link>
+          <div className="py-20 text-center text-gray-500">
+            还没有案例，<Link href="/admin/cases/new" className="text-brand-600 hover:underline">点击新增</Link>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-white/5 text-left text-white/40">
+                <tr className="border-b border-gray-100 text-left text-gray-500">
                   <th className="p-4 font-medium">封面</th>
                   <th className="p-4 font-medium">案例标题</th>
                   <th className="p-4 font-medium">分类</th>
@@ -107,9 +107,9 @@ export default function CasesPage() {
               </thead>
               <tbody>
                 {items.map((c) => (
-                  <tr key={c.id} className="border-b border-white/5 hover:bg-white/[0.02]">
+                  <tr key={c.id} className="border-b border-gray-100 hover:bg-gray-50/50">
                     <td className="p-4">
-                      <div className="w-14 h-14 rounded bg-white/5 overflow-hidden">
+                      <div className="w-14 h-14 rounded bg-gray-100 overflow-hidden">
                         {c.coverImage && (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img src={c.coverImage} alt="" className="w-full h-full object-cover" />
@@ -117,15 +117,15 @@ export default function CasesPage() {
                       </div>
                     </td>
                     <td className="p-4 font-medium">{c.title}</td>
-                    <td className="p-4 text-white/60">{c.category.name}</td>
-                    <td className="p-4 text-white/60">
+                    <td className="p-4 text-gray-600">{c.category.name}</td>
+                    <td className="p-4 text-gray-600">
                       {[c.carBrand, c.carModel].filter(Boolean).join(' ') || '-'}
                     </td>
-                    <td className="p-4 text-white/60">{c.sortOrder}</td>
+                    <td className="p-4 text-gray-600">{c.sortOrder}</td>
                     <td className="p-4">
                       <button
                         onClick={() => toggle(c, 'featured')}
-                        className={`px-2 py-1 rounded text-xs ${c.featured ? 'bg-gold-500/20 text-gold-400' : 'bg-white/5 text-white/40'}`}
+                        className={`px-2 py-1 rounded text-xs ${c.featured ? 'bg-gold-100 text-gold-600' : 'bg-gray-100 text-gray-500'}`}
                       >
                         {c.featured ? '⭐ 已精选' : '加精选'}
                       </button>
@@ -133,13 +133,13 @@ export default function CasesPage() {
                     <td className="p-4">
                       <button
                         onClick={() => toggle(c, 'published')}
-                        className={`px-2.5 py-1 rounded text-xs ${c.published ? 'bg-green-500/15 text-green-300' : 'bg-white/10 text-white/50'}`}
+                        className={`px-2.5 py-1 rounded text-xs ${c.published ? 'bg-green-100 text-green-700' : 'bg-gray-200 text-gray-500'}`}
                       >
                         {c.published ? '已发布' : '未发布'}
                       </button>
                     </td>
                     <td className="p-4 text-right space-x-2">
-                      <Link href={`/admin/cases/${c.id}`} className="text-brand-400 hover:underline">编辑</Link>
+                      <Link href={`/admin/cases/${c.id}`} className="text-brand-600 hover:underline">编辑</Link>
                       <button onClick={() => remove(c)} className="text-red-400 hover:underline">删除</button>
                     </td>
                   </tr>

@@ -28,9 +28,9 @@ export default async function AboutPage() {
       <section className="pt-32 pb-20">
         <div className="container">
           <div className="max-w-3xl">
-            <div className="text-brand-400 mb-3">关于我们</div>
+            <div className="text-brand-600 mb-3">关于我们</div>
             <h1 className="heading-1 mb-6">{name}</h1>
-            {slogan && <p className="text-2xl text-white/60">{slogan}</p>}
+            {slogan && <p className="text-2xl text-gray-600">{slogan}</p>}
           </div>
         </div>
       </section>
@@ -40,9 +40,9 @@ export default async function AboutPage() {
         <section className="pb-20">
           <div className="container">
             <div className="card max-w-4xl mx-auto">
-              <div className="prose prose-invert max-w-none">
+              <div className="prose max-w-none">
                 {intro.split('\n').filter(Boolean).map((p, i) => (
-                  <p key={i} className="text-white/70 leading-relaxed text-lg mb-4">{p}</p>
+                  <p key={i} className="text-gray-700 leading-relaxed text-lg mb-4">{p}</p>
                 ))}
               </div>
             </div>
@@ -54,7 +54,7 @@ export default async function AboutPage() {
         <section className="pb-20">
           <div className="container">
             <div className="card max-w-4xl mx-auto text-center py-16">
-              <p className="text-white/40">
+              <p className="text-gray-500">
                 公司简介尚未填写，请在后台 → 站点设置 → 公司信息中编辑
               </p>
             </div>
@@ -80,7 +80,7 @@ export default async function AboutPage() {
           <div className="container">
             <div className="text-center mb-12">
               <h2 className="heading-2 mb-3">工厂实景</h2>
-              <p className="text-white/50">真实的生产环境，欢迎实地参观</p>
+              <p className="text-gray-500">真实的生产环境，欢迎实地参观</p>
             </div>
             <GalleryGrid images={factoryImages} />
           </div>
@@ -120,7 +120,7 @@ function Stat({ number, label }: { number: string; label: string }) {
       <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-brand-400 to-gold-500 bg-clip-text text-transparent">
         {number}
       </div>
-      <div className="text-sm text-white/50 mt-2">{label}</div>
+      <div className="text-sm text-gray-500 mt-2">{label}</div>
     </div>
   )
 }
@@ -129,7 +129,7 @@ function GalleryGrid({ images }: { images: { id: number; imageUrl: string; title
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {images.map((img) => (
-        <div key={img.id} className="aspect-square rounded-xl overflow-hidden bg-white/5 group">
+        <div key={img.id} className="aspect-square rounded-xl overflow-hidden bg-gray-100 group">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={img.imageUrl}

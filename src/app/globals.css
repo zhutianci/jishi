@@ -3,11 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --background: 10 10 11;
-    --foreground: 250 250 252;
-  }
-
   * {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -18,42 +13,43 @@
   }
 
   body {
-    background-color: #0a0a0b;
-    color: #fafafc;
+    background-color: #fafaf9;
+    color: #1a1a1f;
     font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif;
   }
 
   ::selection {
-    background-color: rgba(207, 74, 64, 0.3);
+    background-color: rgba(207, 74, 64, 0.2);
   }
 }
 
 @layer components {
+  /* 半透明卡片（亮色版） */
   .glass {
-    @apply bg-white/[0.03] backdrop-blur-md border border-white/[0.08];
+    @apply bg-white border border-gray-200 shadow-sm;
   }
 
   .glass-strong {
-    @apply bg-white/[0.06] backdrop-blur-lg border border-white/[0.12];
+    @apply bg-white border border-gray-200 shadow-md;
   }
 
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-medium
            bg-gradient-to-br from-brand-500 to-brand-700 hover:from-brand-400 hover:to-brand-600
-           text-white shadow-lg shadow-brand-900/30 transition-all duration-200
-           hover:shadow-xl hover:shadow-brand-900/40 hover:-translate-y-0.5;
+           text-white shadow-md shadow-brand-900/10 transition-all duration-200
+           hover:shadow-lg hover:shadow-brand-900/20 hover:-translate-y-0.5;
   }
 
   .btn-secondary {
     @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-medium
-           bg-white/5 hover:bg-white/10 border border-white/10
-           text-white/90 transition-all duration-200;
+           bg-white hover:bg-gray-50 border border-gray-200
+           text-gray-700 transition-all duration-200 shadow-sm;
   }
 
   .btn-gold {
     @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-medium
            bg-gradient-to-br from-gold-400 to-gold-600 hover:from-gold-400 hover:to-gold-500
-           text-ink-950 transition-all duration-200
+           text-white transition-all duration-200 shadow-md
            hover:shadow-lg hover:-translate-y-0.5;
   }
 
@@ -66,15 +62,15 @@
   }
 
   .heading-1 {
-    @apply text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight;
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900;
   }
 
   .heading-2 {
-    @apply text-3xl md:text-4xl font-bold tracking-tight;
+    @apply text-3xl md:text-4xl font-bold tracking-tight text-gray-900;
   }
 
   .heading-3 {
-    @apply text-2xl md:text-3xl font-semibold;
+    @apply text-2xl md:text-3xl font-semibold text-gray-900;
   }
 
   .text-balance {
@@ -82,13 +78,13 @@
   }
 
   .input {
-    @apply w-full rounded-lg bg-white/5 border border-white/10 px-4 py-2.5 text-sm
-           text-white placeholder-white/30 outline-none transition-colors
-           focus:border-brand-500 focus:bg-white/10;
+    @apply w-full rounded-lg bg-white border border-gray-300 px-4 py-2.5 text-sm
+           text-gray-900 placeholder-gray-400 outline-none transition-colors
+           focus:border-brand-500 focus:ring-2 focus:ring-brand-500/10;
   }
 
   .label {
-    @apply block text-sm font-medium text-white/70 mb-2;
+    @apply block text-sm font-medium text-gray-700 mb-2;
   }
 
   .card {
@@ -96,11 +92,11 @@
   }
 }
 
-/* 滚动条 */
+/* 滚动条（亮色） */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: #0a0a0b; }
-::-webkit-scrollbar-thumb { background: #252530; border-radius: 5px; }
-::-webkit-scrollbar-thumb:hover { background: #3a3a47; }
+::-webkit-scrollbar-track { background: #f5f5f4; }
+::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
 
 /* 占位骨架动画 */
 @keyframes shimmer {
@@ -108,7 +104,13 @@
   100% { background-position: 1000px 0; }
 }
 .skeleton {
-  background: linear-gradient(90deg, #1a1a1f 0%, #252530 50%, #1a1a1f 100%);
+  background: linear-gradient(90deg, #f5f5f4 0%, #e7e5e4 50%, #f5f5f4 100%);
   background-size: 1000px 100%;
   animation: shimmer 2s infinite linear;
+}
+
+/* 后台暗色侧栏在亮色站点中的反差色 */
+.admin-sidebar {
+  background: linear-gradient(180deg, #18181b 0%, #1f1f24 100%);
+  color: #f5f5f4;
 }

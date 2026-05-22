@@ -51,8 +51,8 @@ export default function EditCasePage({ params }: { params: { id: string } }) {
     router.refresh()
   }
 
-  if (error) return <div className="text-red-300">{error}</div>
-  if (!initial) return <div className="text-white/40">加载中...</div>
+  if (error) return <div className="text-red-600">{error}</div>
+  if (!initial) return <div className="text-gray-500">加载中...</div>
 
   return (
     <div className="space-y-6">

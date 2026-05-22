@@ -67,7 +67,7 @@ export default function GalleryPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">相册管理</h1>
-          <p className="text-sm text-white/40 mt-1">工厂、工艺、团队、证书等图片素材</p>
+          <p className="text-sm text-gray-500 mt-1">工厂、工艺、团队、证书等图片素材</p>
         </div>
         <button
           onClick={() => setEditing({ category: activeCategory, sortOrder: filtered.length })}
@@ -77,19 +77,19 @@ export default function GalleryPage() {
         </button>
       </div>
 
-      <div className="flex flex-wrap gap-2 border-b border-white/5">
+      <div className="flex flex-wrap gap-2 border-b border-gray-100">
         {CATEGORIES.map((c) => (
           <button
             key={c.value}
             onClick={() => setActiveCategory(c.value)}
             className={`px-4 py-2.5 text-sm border-b-2 transition-colors ${
               activeCategory === c.value
-                ? 'border-brand-500 text-white'
-                : 'border-transparent text-white/40 hover:text-white/70'
+                ? 'border-brand-500 text-brand-700'
+                : 'border-transparent text-gray-500 hover:text-gray-700'
             }`}
           >
             {c.label}
-            <span className="ml-2 text-xs text-white/30">
+            <span className="ml-2 text-xs text-gray-400">
               {images.filter((i) => i.category === c.value).length}
             </span>
           </button>
@@ -97,23 +97,23 @@ export default function GalleryPage() {
       </div>
 
       {loading ? (
-        <div className="text-white/40">加载中...</div>
+        <div className="text-gray-500">加载中...</div>
       ) : filtered.length === 0 ? (
-        <div className="card text-center py-16 text-white/40">该分类还没有图片</div>
+        <div className="card text-center py-16 text-gray-500">该分类还没有图片</div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {filtered.map((img) => (
             <div key={img.id} className="card !p-0 overflow-hidden group">
-              <div className="aspect-square bg-white/5">
+              <div className="aspect-square bg-gray-100">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={img.imageUrl} alt="" className="w-full h-full object-cover" />
               </div>
               <div className="p-3">
                 <div className="text-sm truncate">{img.title || '(无标题)'}</div>
-                <div className="text-xs text-white/40 mt-1">排序: {img.sortOrder}</div>
+                <div className="text-xs text-gray-500 mt-1">排序: {img.sortOrder}</div>
                 <div className="flex gap-2 mt-2">
-                  <button onClick={() => setEditing(img)} className="flex-1 text-xs py-1 rounded bg-white/5 hover:bg-white/10">编辑</button>
-                  <button onClick={() => remove(img)} className="flex-1 text-xs py-1 rounded bg-red-500/15 hover:bg-red-500/25 text-red-300">删除</button>
+                  <button onClick={() => setEditing(img)} className="flex-1 text-xs py-1 rounded bg-gray-100 hover:bg-gray-200">编辑</button>
+                  <button onClick={() => remove(img)} className="flex-1 text-xs py-1 rounded bg-red-100 hover:bg-red-200 text-red-600">删除</button>
                 </div>
               </div>
             </div>

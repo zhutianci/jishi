@@ -29,10 +29,10 @@ export default async function ProductsPage({
       <div className="container">
         {/* Header */}
         <div className="mb-12">
-          <div className="text-brand-400 mb-2">产品中心</div>
+          <div className="text-brand-600 mb-2">产品中心</div>
           <h1 className="heading-1">{activeCat ? activeCat.name : '全部产品'}</h1>
           {activeCat?.subtitle && (
-            <p className="text-white/60 mt-3 text-lg">{activeCat.subtitle}</p>
+            <p className="text-gray-600 mt-3 text-lg">{activeCat.subtitle}</p>
           )}
         </div>
 
@@ -41,7 +41,7 @@ export default async function ProductsPage({
           <Link
             href="/products"
             className={`px-5 py-2 rounded-full text-sm transition-colors ${
-              !activeSlug ? 'bg-brand-500 text-white' : 'bg-white/5 text-white/60 hover:bg-white/10'
+              !activeSlug ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
             全部
@@ -51,7 +51,7 @@ export default async function ProductsPage({
               key={c.id}
               href={`/products?cat=${c.slug}`}
               className={`px-5 py-2 rounded-full text-sm transition-colors ${
-                activeSlug === c.slug ? 'bg-brand-500 text-white' : 'bg-white/5 text-white/60 hover:bg-white/10'
+                activeSlug === c.slug ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
               {c.name}
@@ -61,7 +61,7 @@ export default async function ProductsPage({
 
         {/* 产品网格 */}
         {products.length === 0 ? (
-          <div className="card text-center py-20 text-white/40">
+          <div className="card text-center py-20 text-gray-500">
             该分类暂无产品
           </div>
         ) : (
@@ -74,7 +74,7 @@ export default async function ProductsPage({
                   href={`/products/${p.id}`}
                   className="group card !p-4 hover:border-brand-500/50 transition-all hover:-translate-y-1"
                 >
-                  <div className="aspect-square rounded-lg bg-white/5 overflow-hidden mb-4">
+                  <div className="aspect-square rounded-lg bg-gray-100 overflow-hidden mb-4">
                     {p.coverImage ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
@@ -86,13 +86,13 @@ export default async function ProductsPage({
                       <div className="w-full h-full skeleton" />
                     )}
                   </div>
-                  <div className="text-xs text-brand-300 mb-1">{p.category.name}</div>
+                  <div className="text-xs text-brand-600 mb-1">{p.category.name}</div>
                   <div className="font-medium line-clamp-2 mb-2">{p.name}</div>
-                  {p.shortDesc && <div className="text-xs text-white/50 line-clamp-2 mb-2">{p.shortDesc}</div>}
+                  {p.shortDesc && <div className="text-xs text-gray-500 line-clamp-2 mb-2">{p.shortDesc}</div>}
                   {features.length > 0 && (
                     <div className="flex flex-wrap gap-1">
                       {features.slice(0, 2).map((f, i) => (
-                        <span key={i} className="px-2 py-0.5 rounded-full bg-white/5 text-xs text-white/60">
+                        <span key={i} className="px-2 py-0.5 rounded-full bg-gray-100 text-xs text-gray-600">
                           {f}
                         </span>
                       ))}

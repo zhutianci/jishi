@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useRef } from 'react'
 import { cn } from '@/lib/utils'
@@ -45,7 +45,7 @@ export function ImageUploader({ value, onChange, className, label, aspect = 'vid
       {label && <label className="label">{label}</label>}
       <div
         className={cn(
-          'relative rounded-lg border-2 border-dashed border-white/10 overflow-hidden bg-white/[0.02]',
+          'relative rounded-lg border-2 border-dashed border-gray-200 overflow-hidden bg-gray-50/50',
           'hover:border-brand-500/50 transition-colors cursor-pointer',
           aspectClass
         )}
@@ -76,7 +76,7 @@ export function ImageUploader({ value, onChange, className, label, aspect = 'vid
             </div>
           </>
         ) : (
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-white/40 text-sm gap-2">
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-500 text-sm gap-2">
             {uploading ? (
               <>
                 <svg className="animate-spin w-6 h-6" viewBox="0 0 24 24" fill="none">
@@ -91,7 +91,7 @@ export function ImageUploader({ value, onChange, className, label, aspect = 'vid
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 7.5m0 0L7.5 12M12 7.5v9" />
                 </svg>
                 <span>点击或拖拽图片上传</span>
-                <span className="text-xs text-white/30">支持 jpg/png/webp · 最大 15MB</span>
+                <span className="text-xs text-gray-400">支持 jpg/png/webp · 最大 15MB</span>
               </>
             )}
           </div>
@@ -163,12 +163,12 @@ export function MultiImageUploader({ values, onChange, className, label, max = 1
       {label && (
         <div className="flex items-center justify-between mb-2">
           <label className="label !mb-0">{label}</label>
-          <span className="text-xs text-white/40">{values.length} / {max}</span>
+          <span className="text-xs text-gray-500">{values.length} / {max}</span>
         </div>
       )}
       <div className="grid grid-cols-3 md:grid-cols-4 gap-3">
         {values.map((url, i) => (
-          <div key={url + i} className="relative aspect-square rounded-lg overflow-hidden bg-white/5 group">
+          <div key={url + i} className="relative aspect-square rounded-lg overflow-hidden bg-gray-100 group">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={url} alt="" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2 p-2">
@@ -176,7 +176,7 @@ export function MultiImageUploader({ values, onChange, className, label, max = 1
                 type="button"
                 onClick={() => moveUp(i)}
                 disabled={i === 0}
-                className="text-xs px-2 py-1 rounded bg-white/10 hover:bg-white/20 disabled:opacity-30"
+                className="text-xs px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-30"
               >
                 上移
               </button>
@@ -194,7 +194,7 @@ export function MultiImageUploader({ values, onChange, className, label, max = 1
           <button
             type="button"
             onClick={() => inputRef.current?.click()}
-            className="aspect-square rounded-lg border-2 border-dashed border-white/10 hover:border-brand-500/50 flex flex-col items-center justify-center text-white/40 text-xs gap-1 transition-colors"
+            className="aspect-square rounded-lg border-2 border-dashed border-gray-200 hover:border-brand-500/50 flex flex-col items-center justify-center text-gray-500 text-xs gap-1 transition-colors"
             disabled={uploading}
           >
             {uploading ? (

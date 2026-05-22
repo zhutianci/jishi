@@ -37,7 +37,7 @@ export default async function DashboardPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold">欢迎回来，{session.name}</h1>
-        <p className="text-white/40 mt-1">
+        <p className="text-gray-500 mt-1">
           {session.role === 'ADMIN'
             ? '您拥有完整管理权限'
             : `您负责的产品线：${session.role === 'FLOORMAT_MGR' ? '汽车脚垫' : '手缝方向盘套'}`}
@@ -51,7 +51,7 @@ export default async function DashboardPage() {
         <Link href="/admin/products/new" className="card hover:border-brand-500/50 transition-colors flex flex-col justify-center">
           <div className="text-3xl">➕</div>
           <div className="mt-2 font-semibold">添加新产品</div>
-          <div className="text-sm text-white/40 mt-1">立即录入一个新产品</div>
+          <div className="text-sm text-gray-500 mt-1">立即录入一个新产品</div>
         </Link>
       </div>
 
@@ -60,21 +60,21 @@ export default async function DashboardPage() {
         <div className="card">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold">最近产品</h3>
-            <Link href="/admin/products" className="text-sm text-brand-400 hover:text-brand-300">
+            <Link href="/admin/products" className="text-sm text-brand-600 hover:text-brand-600">
               全部 →
             </Link>
           </div>
           <div className="space-y-2">
             {recentProducts.length === 0 ? (
-              <p className="text-sm text-white/40 py-8 text-center">还没有产品</p>
+              <p className="text-sm text-gray-500 py-8 text-center">还没有产品</p>
             ) : (
               recentProducts.map((p) => (
                 <Link
                   key={p.id}
                   href={`/admin/products/${p.id}`}
-                  className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 transition-colors"
+                  className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
                 >
-                  <div className="w-10 h-10 rounded bg-white/5 overflow-hidden flex-shrink-0">
+                  <div className="w-10 h-10 rounded bg-gray-100 overflow-hidden flex-shrink-0">
                     {p.coverImage && (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={p.coverImage} alt="" className="w-full h-full object-cover" />
@@ -82,10 +82,10 @@ export default async function DashboardPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-sm font-medium truncate">{p.name}</div>
-                    <div className="text-xs text-white/40">{p.category.name}</div>
+                    <div className="text-xs text-gray-500">{p.category.name}</div>
                   </div>
                   {!p.published && (
-                    <span className="text-xs px-2 py-0.5 rounded bg-white/10 text-white/60">未上架</span>
+                    <span className="text-xs px-2 py-0.5 rounded bg-gray-200 text-gray-600">未上架</span>
                   )}
                 </Link>
               ))
@@ -96,21 +96,21 @@ export default async function DashboardPage() {
         <div className="card">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold">最近案例</h3>
-            <Link href="/admin/cases" className="text-sm text-brand-400 hover:text-brand-300">
+            <Link href="/admin/cases" className="text-sm text-brand-600 hover:text-brand-600">
               全部 →
             </Link>
           </div>
           <div className="space-y-2">
             {recentCases.length === 0 ? (
-              <p className="text-sm text-white/40 py-8 text-center">还没有案例</p>
+              <p className="text-sm text-gray-500 py-8 text-center">还没有案例</p>
             ) : (
               recentCases.map((c) => (
                 <Link
                   key={c.id}
                   href={`/admin/cases/${c.id}`}
-                  className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 transition-colors"
+                  className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
                 >
-                  <div className="w-10 h-10 rounded bg-white/5 overflow-hidden flex-shrink-0">
+                  <div className="w-10 h-10 rounded bg-gray-100 overflow-hidden flex-shrink-0">
                     {c.coverImage && (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={c.coverImage} alt="" className="w-full h-full object-cover" />
@@ -118,7 +118,7 @@ export default async function DashboardPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="text-sm font-medium truncate">{c.title}</div>
-                    <div className="text-xs text-white/40">
+                    <div className="text-xs text-gray-500">
                       {c.category.name}
                       {c.carBrand && ` · ${c.carBrand} ${c.carModel || ''}`}
                     </div>
@@ -152,7 +152,7 @@ function StatCard({ label, value, href, icon }: { label: string; value: number; 
     <Link href={href} className="card hover:border-brand-500/50 transition-colors">
       <div className="flex items-center justify-between">
         <div>
-          <div className="text-sm text-white/40">{label}</div>
+          <div className="text-sm text-gray-500">{label}</div>
           <div className="text-3xl font-bold mt-1">{value}</div>
         </div>
         <div className="text-3xl">{icon}</div>
@@ -163,7 +163,7 @@ function StatCard({ label, value, href, icon }: { label: string; value: number; 
 
 function QuickLink({ href, label }: { href: string; label: string }) {
   return (
-    <Link href={href} className="px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 text-sm transition-colors text-center">
+    <Link href={href} className="px-4 py-3 rounded-lg bg-gray-100 hover:bg-gray-200 text-sm transition-colors text-center">
       {label}
     </Link>
   )

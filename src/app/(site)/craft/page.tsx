@@ -14,9 +14,9 @@ export default async function CraftPage() {
     <div className="pt-32 pb-20">
       <div className="container">
         <div className="max-w-3xl mb-16">
-          <div className="text-brand-400 mb-2">工艺优势</div>
+          <div className="text-brand-600 mb-2">工艺优势</div>
           <h1 className="heading-1 mb-6">每一针每一线<br />都是对品质的承诺</h1>
-          <p className="text-xl text-white/60 leading-relaxed">
+          <p className="text-xl text-gray-600 leading-relaxed">
             从原料筛选到成品质检，10+ 道工序，每个环节严控品质
           </p>
         </div>
@@ -40,7 +40,7 @@ export default async function CraftPage() {
             <h2 className="heading-3 mb-10 text-center">工艺实拍</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {craftImages.map((img) => (
-                <div key={img.id} className="aspect-square rounded-xl overflow-hidden bg-white/5 group">
+                <div key={img.id} className="aspect-square rounded-xl overflow-hidden bg-gray-100 group">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={img.imageUrl}
@@ -85,13 +85,13 @@ export default async function CraftPage() {
 function CraftStep({ n, title, desc }: { n: string; title: string; desc: string }) {
   return (
     <div className="card relative overflow-hidden">
-      <div className="absolute top-0 right-0 text-7xl font-bold text-white/[0.04] leading-none">
+      <div className="absolute top-0 right-0 text-7xl font-bold text-gray-100 leading-none">
         {n}
       </div>
       <div className="relative">
-        <div className="text-brand-400 font-mono text-sm mb-2">STEP {n}</div>
+        <div className="text-brand-600 font-mono text-sm mb-2">STEP {n}</div>
         <h3 className="font-semibold text-lg mb-2">{title}</h3>
-        <p className="text-sm text-white/60 leading-relaxed">{desc}</p>
+        <p className="text-sm text-gray-600 leading-relaxed">{desc}</p>
       </div>
     </div>
   )
@@ -116,7 +116,7 @@ function MaterialCard({
         {items.map((item, i) => (
           <div key={i} className="border-l-2 border-brand-500/50 pl-4">
             <div className="font-medium">{item.name}</div>
-            <div className="text-sm text-white/50 mt-1">{item.desc}</div>
+            <div className="text-sm text-gray-500 mt-1">{item.desc}</div>
           </div>
         ))}
       </div>

@@ -82,13 +82,13 @@ export function ProductForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-w-4xl">
       {error && (
-        <div className="rounded-lg bg-red-500/10 border border-red-500/30 px-4 py-2 text-sm text-red-300">
+        <div className="rounded-lg bg-red-50 border border-red-200 px-4 py-2 text-sm text-red-600">
           {error}
         </div>
       )}
 
       <div className="card space-y-4">
-        <h3 className="font-semibold border-b border-white/5 pb-3">基本信息</h3>
+        <h3 className="font-semibold border-b border-gray-100 pb-3">基本信息</h3>
 
         <div className="grid md:grid-cols-2 gap-4">
           <div>
@@ -191,9 +191,9 @@ export function ProductForm({
           </div>
           <div className="flex flex-wrap gap-2">
             {data.features.map((f, i) => (
-              <span key={i} className="px-3 py-1 rounded-full bg-brand-500/15 text-brand-300 text-sm flex items-center gap-2">
+              <span key={i} className="px-3 py-1 rounded-full bg-brand-50 text-brand-600 text-sm flex items-center gap-2">
                 {f}
-                <button type="button" onClick={() => removeFeature(i)} className="text-brand-300/60 hover:text-white">×</button>
+                <button type="button" onClick={() => removeFeature(i)} className="text-brand-600/60 hover:text-gray-900">×</button>
               </span>
             ))}
           </div>
@@ -201,7 +201,7 @@ export function ProductForm({
       </div>
 
       <div className="card space-y-4">
-        <h3 className="font-semibold border-b border-white/5 pb-3">图片</h3>
+        <h3 className="font-semibold border-b border-gray-100 pb-3">图片</h3>
 
         <ImageUploader
           label="主图（列表/卡片展示）"
@@ -219,7 +219,7 @@ export function ProductForm({
       </div>
 
       <div className="card space-y-4">
-        <h3 className="font-semibold border-b border-white/5 pb-3">发布设置</h3>
+        <h3 className="font-semibold border-b border-gray-100 pb-3">发布设置</h3>
 
         <div className="grid md:grid-cols-2 gap-4">
           <label className="flex items-center gap-3 cursor-pointer">

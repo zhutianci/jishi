@@ -40,19 +40,19 @@ export default async function CasesPage({
     <div className="pt-32 pb-20">
       <div className="container">
         <div className="mb-12">
-          <div className="text-brand-400 mb-2">案例展示</div>
+          <div className="text-brand-600 mb-2">案例展示</div>
           <h1 className="heading-1">真实客户案例</h1>
-          <p className="text-white/60 mt-3 text-lg">所有案例图片均为真实客户车辆实拍，所见即所得</p>
+          <p className="text-gray-600 mt-3 text-lg">所有案例图片均为真实客户车辆实拍，所见即所得</p>
         </div>
 
         {/* 分类筛选 */}
         <div className="space-y-3 mb-10">
           <div>
-            <div className="text-xs text-white/40 mb-2">产品线</div>
+            <div className="text-xs text-gray-500 mb-2">产品线</div>
             <div className="flex flex-wrap gap-2">
               <Link
                 href={`/cases${activeBrand ? `?brand=${activeBrand}` : ''}`}
-                className={`px-4 py-1.5 rounded-full text-sm ${!activeCat ? 'bg-brand-500 text-white' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}
+                className={`px-4 py-1.5 rounded-full text-sm ${!activeCat ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
               >
                 全部
               </Link>
@@ -60,7 +60,7 @@ export default async function CasesPage({
                 <Link
                   key={c.id}
                   href={`/cases?cat=${c.slug}${activeBrand ? `&brand=${activeBrand}` : ''}`}
-                  className={`px-4 py-1.5 rounded-full text-sm ${activeCat?.id === c.id ? 'bg-brand-500 text-white' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}
+                  className={`px-4 py-1.5 rounded-full text-sm ${activeCat?.id === c.id ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
                 >
                   {c.name}
                 </Link>
@@ -70,11 +70,11 @@ export default async function CasesPage({
 
           {brands.length > 0 && (
             <div>
-              <div className="text-xs text-white/40 mb-2">车品牌</div>
+              <div className="text-xs text-gray-500 mb-2">车品牌</div>
               <div className="flex flex-wrap gap-2">
                 <Link
                   href={`/cases${activeCat ? `?cat=${activeCat.slug}` : ''}`}
-                  className={`px-4 py-1.5 rounded-full text-sm ${!activeBrand ? 'bg-brand-500 text-white' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}
+                  className={`px-4 py-1.5 rounded-full text-sm ${!activeBrand ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
                 >
                   全部
                 </Link>
@@ -82,7 +82,7 @@ export default async function CasesPage({
                   <Link
                     key={b}
                     href={`/cases?${activeCat ? `cat=${activeCat.slug}&` : ''}brand=${encodeURIComponent(b)}`}
-                    className={`px-4 py-1.5 rounded-full text-sm ${activeBrand === b ? 'bg-brand-500 text-white' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}
+                    className={`px-4 py-1.5 rounded-full text-sm ${activeBrand === b ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
                   >
                     {b}
                   </Link>
@@ -94,14 +94,14 @@ export default async function CasesPage({
 
         {/* 案例网格 */}
         {cases.length === 0 ? (
-          <div className="card text-center py-20 text-white/40">暂无符合条件的案例</div>
+          <div className="card text-center py-20 text-gray-500">暂无符合条件的案例</div>
         ) : (
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {cases.map((c) => (
               <Link
                 key={c.id}
                 href={`/cases/${c.id}`}
-                className="group relative aspect-[4/3] rounded-2xl overflow-hidden bg-white/5 block"
+                className="group relative aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100 block"
               >
                 {c.coverImage ? (
                   // eslint-disable-next-line @next/next/no-img-element
@@ -115,10 +115,10 @@ export default async function CasesPage({
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
                 <div className="absolute top-3 left-3 flex gap-2">
-                  <span className="px-2 py-0.5 rounded-full bg-black/60 backdrop-blur text-xs">{c.category.name}</span>
-                  {c.featured && <span className="px-2 py-0.5 rounded-full bg-gold-500/80 backdrop-blur text-xs text-ink-950">⭐ 精选</span>}
+                  <span className="px-2 py-0.5 rounded-full bg-black/60 backdrop-blur text-xs text-white">{c.category.name}</span>
+                  {c.featured && <span className="px-2 py-0.5 rounded-full bg-gold-500/90 backdrop-blur text-xs text-white">⭐ 精选</span>}
                 </div>
-                <div className="absolute bottom-0 left-0 right-0 p-5">
+                <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
                   <div className="text-xs text-brand-300 mb-1">
                     {[c.carBrand, c.carModel].filter(Boolean).join(' ')}
                   </div>

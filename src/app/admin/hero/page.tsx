@@ -55,14 +55,14 @@ export default function HeroPage() {
     load()
   }
 
-  if (loading) return <div className="text-white/40">加载中...</div>
+  if (loading) return <div className="text-gray-500">加载中...</div>
 
   return (
     <div className="space-y-6 max-w-5xl">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">首页轮播</h1>
-          <p className="text-sm text-white/40 mt-1">管理首页的大图轮播（共 {slides.length} 张）</p>
+          <p className="text-sm text-gray-500 mt-1">管理首页的大图轮播（共 {slides.length} 张）</p>
         </div>
         <button
           onClick={() => setEditing({ active: true, sortOrder: slides.length })}
@@ -74,20 +74,20 @@ export default function HeroPage() {
 
       <div className="space-y-3">
         {slides.length === 0 ? (
-          <div className="card text-center py-16 text-white/40">还没有轮播图</div>
+          <div className="card text-center py-16 text-gray-500">还没有轮播图</div>
         ) : (
           slides.map((s) => (
             <div key={s.id} className="card flex flex-col md:flex-row gap-4">
-              <div className="w-full md:w-64 aspect-video rounded-lg bg-white/5 overflow-hidden flex-shrink-0">
+              <div className="w-full md:w-64 aspect-video rounded-lg bg-gray-100 overflow-hidden flex-shrink-0">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={s.imageUrl} alt="" className="w-full h-full object-cover" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="font-semibold">{s.title || '（无标题）'}</div>
-                {s.subtitle && <div className="text-sm text-white/60 mt-1">{s.subtitle}</div>}
-                <div className="mt-3 flex flex-wrap gap-3 text-xs text-white/40">
+                {s.subtitle && <div className="text-sm text-gray-600 mt-1">{s.subtitle}</div>}
+                <div className="mt-3 flex flex-wrap gap-3 text-xs text-gray-500">
                   <span>排序: {s.sortOrder}</span>
-                  <span className={s.active ? 'text-green-400' : 'text-white/40'}>
+                  <span className={s.active ? 'text-green-400' : 'text-gray-500'}>
                     {s.active ? '已启用' : '已禁用'}
                   </span>
                   {s.ctaText && <span>按钮: {s.ctaText}</span>}
@@ -95,7 +95,7 @@ export default function HeroPage() {
               </div>
               <div className="flex md:flex-col gap-2">
                 <button onClick={() => setEditing(s)} className="btn-secondary text-sm">编辑</button>
-                <button onClick={() => remove(s)} className="px-4 py-2 rounded-full bg-red-500/15 hover:bg-red-500/25 text-red-300 text-sm">删除</button>
+                <button onClick={() => remove(s)} className="px-4 py-2 rounded-full bg-red-100 hover:bg-red-200 text-red-600 text-sm">删除</button>
               </div>
             </div>
           ))

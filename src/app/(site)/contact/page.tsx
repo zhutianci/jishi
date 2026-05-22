@@ -17,9 +17,9 @@ export default async function ContactPage() {
     <div className="pt-32 pb-20">
       <div className="container">
         <div className="text-center mb-16">
-          <div className="text-brand-400 mb-2">联系我们</div>
+          <div className="text-brand-600 mb-2">联系我们</div>
           <h1 className="heading-1 mb-6">期待与您合作</h1>
-          <p className="text-xl text-white/60 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             添加对应业务的微信，1 分钟响应，专业方案当天给出
           </p>
         </div>
@@ -59,12 +59,12 @@ export default async function ContactPage() {
 function InfoRow({ icon, label, value, link }: { icon: string; label: string; value: string; link?: string }) {
   return (
     <div>
-      <div className="flex items-center gap-2 text-white/40 mb-1">
+      <div className="flex items-center gap-2 text-gray-500 mb-1">
         <span>{icon}</span>
         <span>{label}</span>
       </div>
-      <div className="text-white/90 ml-7">
-        {link ? <a href={link} className="hover:text-brand-300">{value}</a> : value}
+      <div className="text-gray-900 ml-7">
+        {link ? <a href={link} className="hover:text-brand-600">{value}</a> : value}
       </div>
     </div>
   )

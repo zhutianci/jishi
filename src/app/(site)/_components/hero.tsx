@@ -25,10 +25,11 @@ export function HeroSection({ slides }: { slides: Slide[] }) {
 
   if (total === 0) return null
   const current = slides[idx]
+  const hasImage = !!current.imageUrl
 
   return (
-    <section className="relative h-screen min-h-[600px] max-h-[900px] overflow-hidden">
-      {/* 背景图 */}
+    <section className="relative h-screen min-h-[600px] max-h-[900px] overflow-hidden text-white">
+      {/* 背景 */}
       <AnimatePresence mode="wait">
         <motion.div
           key={current.id}
@@ -38,7 +39,7 @@ export function HeroSection({ slides }: { slides: Slide[] }) {
           transition={{ duration: 1.2 }}
           className="absolute inset-0"
         >
-          {current.imageUrl ? (
+          {hasImage ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={current.imageUrl}
@@ -46,14 +47,13 @@ export function HeroSection({ slides }: { slides: Slide[] }) {
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-ink-900 via-brand-900/20 to-ink-950" />
+            <div className="w-full h-full bg-gradient-to-br from-brand-800 via-brand-900 to-stone-900" />
           )}
         </motion.div>
       </AnimatePresence>
 
-      {/* 遮罩 */}
-      <div className="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/50 to-ink-950/70" />
-      <div className="absolute inset-0 bg-hero-grain" />
+      {/* 暗色蒙版：确保文字始终清晰 */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/30" />
 
       {/* 内容 */}
       <div className="relative h-full flex items-center">
@@ -68,12 +68,12 @@ export function HeroSection({ slides }: { slides: Slide[] }) {
               className="max-w-3xl"
             >
               {current.title && (
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight mb-6">
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight mb-6 text-white drop-shadow">
                   {current.title}
                 </h1>
               )}
               {current.subtitle && (
-                <p className="text-lg md:text-xl text-white/70 mb-8 max-w-2xl leading-relaxed">
+                <p className="text-lg md:text-xl text-white/85 mb-8 max-w-2xl leading-relaxed drop-shadow">
                   {current.subtitle}
                 </p>
               )}
@@ -94,7 +94,7 @@ export function HeroSection({ slides }: { slides: Slide[] }) {
             <button
               key={i}
               onClick={() => setIdx(i)}
-              className={`h-1 rounded-full transition-all ${i === idx ? 'w-12 bg-brand-400' : 'w-6 bg-white/30 hover:bg-white/50'}`}
+              className={`h-1 rounded-full transition-all ${i === idx ? 'w-12 bg-white' : 'w-6 bg-white/40 hover:bg-white/70'}`}
               aria-label={`轮播 ${i + 1}`}
             />
           ))}
@@ -102,9 +102,9 @@ export function HeroSection({ slides }: { slides: Slide[] }) {
       )}
 
       {/* 滚动提示 */}
-      <div className="absolute bottom-4 right-8 hidden md:flex flex-col items-center gap-2 text-white/40 text-xs">
+      <div className="absolute bottom-4 right-8 hidden md:flex flex-col items-center gap-2 text-white/60 text-xs">
         <span>下滑探索</span>
-        <div className="w-px h-12 bg-gradient-to-b from-white/40 to-transparent animate-pulse" />
+        <div className="w-px h-12 bg-gradient-to-b from-white/60 to-transparent animate-pulse" />
       </div>
     </section>
   )

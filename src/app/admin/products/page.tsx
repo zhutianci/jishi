@@ -59,7 +59,7 @@ export default function ProductsPage() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold">产品管理</h1>
-          <p className="text-sm text-white/40 mt-1">共 {products.length} 个产品</p>
+          <p className="text-sm text-gray-500 mt-1">共 {products.length} 个产品</p>
         </div>
         <Link href="/admin/products/new" className="btn-primary">+ 新增产品</Link>
       </div>
@@ -68,7 +68,7 @@ export default function ProductsPage() {
       <div className="flex flex-wrap gap-2">
         <button
           onClick={() => setFilterCat('')}
-          className={`px-4 py-1.5 rounded-full text-sm ${filterCat === '' ? 'bg-brand-500 text-white' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}
+          className={`px-4 py-1.5 rounded-full text-sm ${filterCat === '' ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
         >
           全部
         </button>
@@ -76,7 +76,7 @@ export default function ProductsPage() {
           <button
             key={c.id}
             onClick={() => setFilterCat(String(c.id))}
-            className={`px-4 py-1.5 rounded-full text-sm ${filterCat === String(c.id) ? 'bg-brand-500 text-white' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}
+            className={`px-4 py-1.5 rounded-full text-sm ${filterCat === String(c.id) ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
           >
             {c.name}
           </button>
@@ -86,16 +86,16 @@ export default function ProductsPage() {
       {/* 列表 */}
       <div className="card !p-0 overflow-hidden">
         {loading ? (
-          <div className="py-20 text-center text-white/40">加载中...</div>
+          <div className="py-20 text-center text-gray-500">加载中...</div>
         ) : products.length === 0 ? (
-          <div className="py-20 text-center text-white/40">
-            还没有产品，<Link href="/admin/products/new" className="text-brand-400 hover:underline">点击新增</Link>
+          <div className="py-20 text-center text-gray-500">
+            还没有产品，<Link href="/admin/products/new" className="text-brand-600 hover:underline">点击新增</Link>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-white/5 text-left text-white/40">
+                <tr className="border-b border-gray-100 text-left text-gray-500">
                   <th className="p-4 font-medium">封面</th>
                   <th className="p-4 font-medium">产品名称</th>
                   <th className="p-4 font-medium">分类</th>
@@ -107,9 +107,9 @@ export default function ProductsPage() {
               </thead>
               <tbody>
                 {products.map((p) => (
-                  <tr key={p.id} className="border-b border-white/5 hover:bg-white/[0.02]">
+                  <tr key={p.id} className="border-b border-gray-100 hover:bg-gray-50/50">
                     <td className="p-4">
-                      <div className="w-14 h-14 rounded bg-white/5 overflow-hidden">
+                      <div className="w-14 h-14 rounded bg-gray-100 overflow-hidden">
                         {p.coverImage && (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img src={p.coverImage} alt="" className="w-full h-full object-cover" />
@@ -117,19 +117,19 @@ export default function ProductsPage() {
                       </div>
                     </td>
                     <td className="p-4 font-medium">{p.name}</td>
-                    <td className="p-4 text-white/60">{p.category.name}</td>
-                    <td className="p-4 text-white/60">{p.material || '-'}</td>
-                    <td className="p-4 text-white/60">{p.sortOrder}</td>
+                    <td className="p-4 text-gray-600">{p.category.name}</td>
+                    <td className="p-4 text-gray-600">{p.material || '-'}</td>
+                    <td className="p-4 text-gray-600">{p.sortOrder}</td>
                     <td className="p-4">
                       <button
                         onClick={() => togglePublished(p)}
-                        className={`px-2.5 py-1 rounded text-xs ${p.published ? 'bg-green-500/15 text-green-300' : 'bg-white/10 text-white/50'}`}
+                        className={`px-2.5 py-1 rounded text-xs ${p.published ? 'bg-green-100 text-green-700' : 'bg-gray-200 text-gray-500'}`}
                       >
                         {p.published ? '已上架' : '未上架'}
                       </button>
                     </td>
                     <td className="p-4 text-right space-x-2">
-                      <Link href={`/admin/products/${p.id}`} className="text-brand-400 hover:underline">编辑</Link>
+                      <Link href={`/admin/products/${p.id}`} className="text-brand-600 hover:underline">编辑</Link>
                       <button onClick={() => remove(p)} className="text-red-400 hover:underline">删除</button>
                     </td>
                   </tr>

@@ -20,6 +20,10 @@ export function Header({ settings }: { settings: SiteSettingsMap }) {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
+  // 首页有 Hero（dark），其他页面是纯亮色背景
+  const isHome = pathname === '/'
+  const transparent = isHome && !scrolled
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
     onScroll()
@@ -33,15 +37,19 @@ export function Header({ settings }: { settings: SiteSettingsMap }) {
     <header
       className={cn(
         'fixed top-0 inset-x-0 z-40 transition-all duration-300',
-        scrolled ? 'bg-ink-950/90 backdrop-blur-md border-b border-white/5' : 'bg-transparent'
+        transparent
+          ? 'bg-transparent text-white'
+          : 'bg-white/95 backdrop-blur-md border-b border-gray-200 text-gray-900 shadow-sm'
       )}
     >
       <div className="container flex items-center justify-between h-16 md:h-20">
         <Link href="/" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center font-bold text-lg">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center font-bold text-lg text-white">
             吉
           </div>
-          <span className="font-semibold text-lg hidden sm:inline">{shortName}</span>
+          <span className={cn('font-semibold text-lg hidden sm:inline', transparent && 'drop-shadow')}>
+            {shortName}
+          </span>
         </Link>
 
         <nav className="hidden lg:flex items-center gap-1">
@@ -53,7 +61,13 @@ export function Header({ settings }: { settings: SiteSettingsMap }) {
                 href={link.href}
                 className={cn(
                   'px-4 py-2 rounded-full text-sm transition-colors',
-                  active ? 'text-white bg-white/5' : 'text-white/60 hover:text-white hover:bg-white/5'
+                  transparent
+                    ? active
+                      ? 'text-white bg-white/15 backdrop-blur-sm'
+                      : 'text-white/85 hover:text-white hover:bg-white/10'
+                    : active
+                      ? 'text-brand-600 bg-brand-50'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                 )}
               >
                 {link.label}
@@ -68,7 +82,7 @@ export function Header({ settings }: { settings: SiteSettingsMap }) {
           </Link>
           <button
             onClick={() => setMenuOpen(true)}
-            className="lg:hidden p-2 rounded-lg hover:bg-white/5"
+            className="lg:hidden p-2 rounded-lg hover:bg-black/5"
             aria-label="菜单"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -80,8 +94,8 @@ export function Header({ settings }: { settings: SiteSettingsMap }) {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="fixed inset-0 z-50 bg-ink-950 lg:hidden">
-          <div className="container py-5 flex items-center justify-between">
+        <div className="fixed inset-0 z-50 bg-white text-gray-900 lg:hidden">
+          <div className="container py-5 flex items-center justify-between border-b border-gray-200">
             <span className="font-semibold">{shortName}</span>
             <button onClick={() => setMenuOpen(false)} className="p-2">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -95,7 +109,7 @@ export function Header({ settings }: { settings: SiteSettingsMap }) {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="block px-4 py-3 rounded-lg text-lg hover:bg-white/5"
+                className="block px-4 py-3 rounded-lg text-lg hover:bg-gray-100"
               >
                 {link.label}
               </Link>

@@ -72,13 +72,13 @@ export function CaseForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-w-4xl">
       {error && (
-        <div className="rounded-lg bg-red-500/10 border border-red-500/30 px-4 py-2 text-sm text-red-300">
+        <div className="rounded-lg bg-red-50 border border-red-200 px-4 py-2 text-sm text-red-600">
           {error}
         </div>
       )}
 
       <div className="card space-y-4">
-        <h3 className="font-semibold border-b border-white/5 pb-3">基本信息</h3>
+        <h3 className="font-semibold border-b border-gray-100 pb-3">基本信息</h3>
 
         <div className="grid md:grid-cols-2 gap-4">
           <div>
@@ -167,7 +167,7 @@ export function CaseForm({
       </div>
 
       <div className="card space-y-4">
-        <h3 className="font-semibold border-b border-white/5 pb-3">图片</h3>
+        <h3 className="font-semibold border-b border-gray-100 pb-3">图片</h3>
 
         <ImageUploader
           label="封面图（列表展示）"
@@ -185,7 +185,7 @@ export function CaseForm({
       </div>
 
       <div className="card space-y-4">
-        <h3 className="font-semibold border-b border-white/5 pb-3">发布设置</h3>
+        <h3 className="font-semibold border-b border-gray-100 pb-3">发布设置</h3>
 
         <div className="grid md:grid-cols-3 gap-4">
           <label className="flex items-center gap-3 cursor-pointer">

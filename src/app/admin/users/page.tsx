@@ -71,7 +71,7 @@ export default function UsersPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">账号管理</h1>
-          <p className="text-sm text-white/40 mt-1">共 {users.length} 个账号</p>
+          <p className="text-sm text-gray-500 mt-1">共 {users.length} 个账号</p>
         </div>
         <button onClick={() => setEditing({ role: 'FLOORMAT_MGR', active: true })} className="btn-primary">
           + 新增账号
@@ -80,11 +80,11 @@ export default function UsersPage() {
 
       <div className="card !p-0 overflow-hidden">
         {loading ? (
-          <div className="py-12 text-center text-white/40">加载中...</div>
+          <div className="py-12 text-center text-gray-500">加载中...</div>
         ) : (
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-white/5 text-left text-white/40">
+              <tr className="border-b border-gray-100 text-left text-gray-500">
                 <th className="p-4 font-medium">姓名</th>
                 <th className="p-4 font-medium">邮箱</th>
                 <th className="p-4 font-medium">角色</th>
@@ -95,24 +95,24 @@ export default function UsersPage() {
             </thead>
             <tbody>
               {users.map((u) => (
-                <tr key={u.id} className="border-b border-white/5 hover:bg-white/[0.02]">
+                <tr key={u.id} className="border-b border-gray-100 hover:bg-gray-50/50">
                   <td className="p-4 font-medium">{u.name}</td>
-                  <td className="p-4 text-white/60">{u.email}</td>
+                  <td className="p-4 text-gray-600">{u.email}</td>
                   <td className="p-4">
-                    <span className="px-2 py-0.5 rounded bg-brand-500/15 text-brand-300 text-xs">
+                    <span className="px-2 py-0.5 rounded bg-brand-50 text-brand-600 text-xs">
                       {ROLE_LABEL[u.role]}
                     </span>
                   </td>
                   <td className="p-4">
-                    <span className={`px-2 py-0.5 rounded text-xs ${u.active ? 'bg-green-500/15 text-green-300' : 'bg-white/10 text-white/40'}`}>
+                    <span className={`px-2 py-0.5 rounded text-xs ${u.active ? 'bg-green-100 text-green-700' : 'bg-gray-200 text-gray-500'}`}>
                       {u.active ? '启用' : '禁用'}
                     </span>
                   </td>
-                  <td className="p-4 text-white/40 text-xs">
+                  <td className="p-4 text-gray-500 text-xs">
                     {u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleString('zh-CN') : '从未登录'}
                   </td>
                   <td className="p-4 text-right space-x-2">
-                    <button onClick={() => setEditing(u)} className="text-brand-400 hover:underline">编辑</button>
+                    <button onClick={() => setEditing(u)} className="text-brand-600 hover:underline">编辑</button>
                     <button onClick={() => remove(u)} className="text-red-400 hover:underline">删除</button>
                   </td>
                 </tr>

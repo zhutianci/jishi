@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react'
 import { ImageUploader } from '@/components/image-uploader'
@@ -110,7 +110,7 @@ export default function SettingsPage() {
     }
   }
 
-  if (loading) return <div className="text-white/40">加载中...</div>
+  if (loading) return <div className="text-gray-500">加载中...</div>
 
   const groupedPreset: Record<string, typeof PRESET> = {}
   for (const p of PRESET) {
@@ -122,19 +122,19 @@ export default function SettingsPage() {
     <div className="space-y-6 max-w-5xl">
       <div>
         <h1 className="text-2xl font-bold">站点设置</h1>
-        <p className="text-sm text-white/40 mt-1">公司信息、联系方式、SEO 等全站设置</p>
+        <p className="text-sm text-gray-500 mt-1">公司信息、联系方式、SEO 等全站设置</p>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-2 border-b border-white/5 overflow-x-auto">
+      <div className="flex gap-2 border-b border-gray-100 overflow-x-auto">
         {GROUP_ORDER.map((g) => (
           <button
             key={g}
             onClick={() => setActiveGroup(g)}
             className={`px-4 py-2.5 text-sm whitespace-nowrap border-b-2 transition-colors ${
               activeGroup === g
-                ? 'border-brand-500 text-white'
-                : 'border-transparent text-white/40 hover:text-white/70'
+                ? 'border-brand-500 text-brand-700'
+                : 'border-transparent text-gray-500 hover:text-gray-700'
             }`}
           >
             {GROUP_LABELS[g]}
@@ -149,7 +149,7 @@ export default function SettingsPage() {
             <div key={p.key}>
               <label className="label">
                 {p.label}
-                {p.help && <span className="ml-2 text-xs text-white/30 font-normal">{p.help}</span>}
+                {p.help && <span className="ml-2 text-xs text-gray-400 font-normal">{p.help}</span>}
               </label>
               {p.type === 'image' ? (
                 <ImageUploader
@@ -178,7 +178,7 @@ export default function SettingsPage() {
         })}
       </div>
 
-      <div className="flex items-center gap-3 sticky bottom-4 bg-ink-950/95 backdrop-blur p-4 rounded-xl border border-white/10">
+      <div className="flex items-center gap-3 sticky bottom-4 bg-white/95 backdrop-blur p-4 rounded-xl border border-gray-200">
         <button onClick={save} disabled={saving} className="btn-primary disabled:opacity-50">
           {saving ? '保存中...' : '保存全部设置'}
         </button>
