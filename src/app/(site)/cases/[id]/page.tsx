@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import { getSettings } from '@/lib/settings'
 import { safeJsonParse, formatDate } from '@/lib/utils'
+import { getCategoryContactKey, getContactProductLine } from '@/lib/category'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { CaseGallery } from './_gallery'
@@ -21,7 +22,8 @@ export default async function CaseDetailPage({ params }: { params: { id: string 
   const settings = await getSettings()
   const images = safeJsonParse<string[]>(item.images, [])
   const allImages = [item.coverImage, ...images].filter(Boolean) as string[]
-  const isFloormat = item.category.slug === 'floormat'
+  const contactKey = getCategoryContactKey(item.category)
+  const productLine = getContactProductLine(contactKey) || item.category.name
 
   const related = await prisma.case.findMany({
     where: { published: true, categoryId: item.categoryId, id: { not: item.id } },
@@ -88,8 +90,8 @@ export default async function CaseDetailPage({ params }: { params: { id: string 
 
             <ContactBlock
               settings={settings}
-              prefix={isFloormat ? 'contact.huangwei' : 'contact.zhusuting'}
-              productLine={isFloormat ? '脚垫' : '方向盘套'}
+              prefix={`contact.${contactKey}`}
+              productLine={productLine}
             />
           </div>
         </div>

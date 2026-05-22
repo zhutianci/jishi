@@ -33,17 +33,20 @@ model User {
 
 // 产品大类（脚垫 / 方向盘套）—— 固定 2 个，与角色权限挂钩
 model Category {
-  id        Int       @id @default(autoincrement())
-  slug      String    @unique  // floormat | wheelcover
-  name      String              // 汽车脚垫 / 手缝方向盘套
-  subtitle  String?             // 副标题
-  icon      String?             // 图标路径
-  coverUrl  String?             // 分类封面图
-  sortOrder Int       @default(0)
-  products  Product[]
-  cases     Case[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id          Int       @id @default(autoincrement())
+  slug        String    @unique  // floormat | wheelcover | 自定义
+  name        String              // 汽车脚垫 / 手缝方向盘套
+  subtitle    String?             // 副标题
+  icon        String?             // 图标路径
+  coverUrl    String?             // 分类封面图
+  sortOrder   Int       @default(0)
+  // 该分类的对接联系人 key（对应 SiteSetting 中 contact.{key}.* 系列）
+  // 例如 "huangwei" / "zhusuting"。为空时回退到名字匹配（含"脚垫"→huangwei，含"方向盘"→zhusuting）
+  contactKey  String?
+  products    Product[]
+  cases       Case[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Product {

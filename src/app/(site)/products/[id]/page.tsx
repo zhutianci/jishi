@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import { getSettings } from '@/lib/settings'
 import { safeJsonParse } from '@/lib/utils'
+import { getCategoryContactKey, getContactProductLine } from '@/lib/category'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ProductGallery } from './_gallery'
@@ -24,8 +25,8 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
   const fitModels = product.fitCarModels?.split(/[,，、\s]+/).filter(Boolean) || []
   const allImages = [product.coverImage, ...images].filter(Boolean) as string[]
 
-  const isFloormat = product.category.slug === 'floormat'
-  const contactPrefix = isFloormat ? 'contact.huangwei' : 'contact.zhusuting'
+  const contactKey = getCategoryContactKey(product.category)
+  const productLine = getContactProductLine(contactKey) || product.category.name
 
   // 相关产品
   const related = await prisma.product.findMany({
@@ -101,8 +102,8 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
             {/* 联系按钮 */}
             <ContactBlock
               settings={settings}
-              prefix={contactPrefix}
-              productLine={isFloormat ? '脚垫' : '方向盘套'}
+              prefix={`contact.${contactKey}`}
+              productLine={productLine}
             />
           </div>
         </div>

@@ -11,10 +11,17 @@ type Category = {
   icon: string | null
   coverUrl: string | null
   sortOrder: number
+  contactKey: string | null
   _count?: { products: number; cases: number }
 }
 
 const PROTECTED_SLUGS = ['floormat', 'wheelcover']
+
+const CONTACT_OPTIONS = [
+  { value: '', label: '（自动判断 — 推荐）' },
+  { value: 'huangwei', label: '黄威（脚垫业务）' },
+  { value: 'zhusuting', label: '朱苏婷（方向盘套业务）' },
+]
 
 export default function CategoriesPage() {
   const [cats, setCats] = useState<Category[]>([])
@@ -186,14 +193,31 @@ export default function CategoriesPage() {
               aspect="video"
             />
 
-            <div>
-              <label className="label">排序</label>
-              <input
-                type="number"
-                className="input max-w-[120px]"
-                value={c.sortOrder}
-                onChange={(e) => update(c.id, { sortOrder: parseInt(e.target.value) || 0 })}
-              />
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="label">对接联系人</label>
+                <select
+                  className="input"
+                  value={c.contactKey || ''}
+                  onChange={(e) => update(c.id, { contactKey: e.target.value })}
+                >
+                  {CONTACT_OPTIONS.map((o) => (
+                    <option key={o.value} value={o.value}>{o.label}</option>
+                  ))}
+                </select>
+                <p className="text-xs text-gray-400 mt-1">
+                  控制产品/案例详情页显示哪个联系人。留空时按 slug/名字自动判断
+                </p>
+              </div>
+              <div>
+                <label className="label">排序</label>
+                <input
+                  type="number"
+                  className="input max-w-[120px]"
+                  value={c.sortOrder}
+                  onChange={(e) => update(c.id, { sortOrder: parseInt(e.target.value) || 0 })}
+                />
+              </div>
             </div>
           </div>
         )
@@ -251,6 +275,18 @@ export default function CategoriesPage() {
                 onChange={(url) => setEditing({ ...editing, coverUrl: url })}
                 aspect="video"
               />
+              <div>
+                <label className="label">对接联系人 *</label>
+                <select
+                  className="input"
+                  value={editing.contactKey || ''}
+                  onChange={(e) => setEditing({ ...editing, contactKey: e.target.value })}
+                >
+                  {CONTACT_OPTIONS.map((o) => (
+                    <option key={o.value} value={o.value}>{o.label}</option>
+                  ))}
+                </select>
+              </div>
               <div className="rounded-lg bg-amber-50 border border-amber-200 p-3 text-xs text-amber-800">
                 💡 新增的分类只有<b>超级管理员</b>能管理产品和案例（脚垫/方向盘套负责人仅能管理对应原有分类）
               </div>

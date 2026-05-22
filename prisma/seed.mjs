@@ -24,17 +24,30 @@ async function main() {
   }
   console.log('✓ Default accounts created')
 
+  // 默认分类的 contactKey 是强相关的，每次 seed 都强制对齐
   await prisma.category.upsert({
     where: { slug: 'floormat' },
-    update: {},
-    create: { slug: 'floormat', name: '汽车脚垫', subtitle: '全包围设计 · 360°环保贴合 · 全车型适配', sortOrder: 1 },
+    update: { contactKey: 'huangwei' },
+    create: { slug: 'floormat', name: '汽车脚垫', subtitle: '全包围设计 · 360°环保贴合 · 全车型适配', sortOrder: 1, contactKey: 'huangwei' },
   })
   await prisma.category.upsert({
     where: { slug: 'wheelcover' },
-    update: {},
-    create: { slug: 'wheelcover', name: '手缝方向盘套', subtitle: '手工缝制 · 进口皮料 · 量身定制', sortOrder: 2 },
+    update: { contactKey: 'zhusuting' },
+    create: { slug: 'wheelcover', name: '手缝方向盘套', subtitle: '手工缝制 · 进口皮料 · 量身定制', sortOrder: 2, contactKey: 'zhusuting' },
   })
-  console.log('✓ Categories created')
+
+  // 一次性兜底：所有现存未设置 contactKey 的分类按名字自动推断
+  const allCats = await prisma.category.findMany({ where: { contactKey: null } })
+  for (const c of allCats) {
+    let key = null
+    if (c.name.includes('脚垫')) key = 'huangwei'
+    else if (c.name.includes('方向盘')) key = 'zhusuting'
+    if (key) {
+      await prisma.category.update({ where: { id: c.id }, data: { contactKey: key } })
+      console.log(`  - auto-assigned ${c.name} → ${key}`)
+    }
+  }
+  console.log('✓ Categories synced')
 
   const initialSettings = [
     { key: 'company.name',          value: '灌云吉狮汽车饰品有限公司',           type: 'text',     group: 'company', label: '公司全称' },

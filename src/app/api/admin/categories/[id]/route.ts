@@ -35,6 +35,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       ...(body.icon !== undefined && { icon: body.icon || null }),
       ...(body.coverUrl !== undefined && { coverUrl: body.coverUrl || null }),
       ...(body.sortOrder !== undefined && { sortOrder: parseInt(body.sortOrder) || 0 }),
+      ...(body.contactKey !== undefined && { contactKey: body.contactKey || null }),
     },
   })
   return NextResponse.json({ category: updated })

@@ -42,6 +42,7 @@ export async function POST(req: NextRequest) {
       icon: body.icon || null,
       coverUrl: body.coverUrl || null,
       sortOrder: body.sortOrder ?? 0,
+      contactKey: body.contactKey || null,
     },
   })
   return NextResponse.json({ category: created })
