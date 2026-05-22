@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/prisma'
 import { getSettings } from '@/lib/settings'
 import type { Metadata } from 'next'
+import { Reveal } from '@/components/site/reveal'
+import { SectionLabel } from '@/components/site/section-label'
 
 export const dynamic = 'force-dynamic'
 
@@ -24,118 +26,111 @@ export default async function AboutPage() {
 
   return (
     <div>
-      {/* Hero */}
-      <section className="pt-28 md:pt-32 pb-12 md:pb-20">
+      <section className="pt-32 md:pt-44 pb-12 md:pb-20 relative">
         <div className="container">
-          <div className="max-w-3xl">
-            <div className="text-brand-600 mb-3">关于我们</div>
-            <h1 className="heading-1 mb-6">{name}</h1>
-            {slogan && <p className="text-2xl text-gray-600">{slogan}</p>}
+          <Reveal><SectionLabel number="01">关于我们</SectionLabel></Reveal>
+          <Reveal delay={0.1}>
+            <h1 className="heading-1 mt-6 md:mt-10 max-w-5xl text-balance">
+              {name}
+              {slogan && (<><br /><span className="italic font-light text-brand-600">{slogan}</span></>)}
+            </h1>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="pb-20 md:pb-32">
+        <div className="container">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+            <Reveal className="lg:col-span-3">
+              <div className="text-xs font-mono uppercase tracking-widest text-ink-400">品牌故事 / Story</div>
+            </Reveal>
+            <Reveal delay={0.1} className="lg:col-span-9">
+              {intro ? (
+                <div className="space-y-6 font-serif text-xl md:text-2xl text-ink-700 leading-[1.75] max-w-4xl">
+                  {intro.split('\n').filter(Boolean).map((p, i) => (<p key={i}>{p}</p>))}
+                </div>
+              ) : (
+                <p className="text-ink-400 italic">公司简介尚未填写，请在后台 → 站点设置 → 公司信息中编辑</p>
+              )}
+            </Reveal>
           </div>
         </div>
       </section>
 
-      {/* 简介 */}
-      {intro && (
-        <section className="pb-20">
-          <div className="container">
-            <div className="card max-w-4xl mx-auto">
-              <div className="prose max-w-none">
-                {intro.split('\n').filter(Boolean).map((p, i) => (
-                  <p key={i} className="text-gray-700 leading-relaxed text-lg mb-4">{p}</p>
-                ))}
-              </div>
+      <section className="border-y border-ink-100 bg-bone-100 py-16 md:py-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-noise opacity-30 mix-blend-multiply pointer-events-none" />
+        <div className="container relative">
+          <Reveal>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-12">
+              {[
+                { num: founded ? `${new Date().getFullYear() - parseInt(founded)}+` : '04+', label: '年制造经验' },
+                { num: '02', label: '主营产品线' },
+                { num: '100%', label: '源头工厂' },
+                { num: '24h', label: '响应速度' },
+              ].map((stat, i) => (
+                <div key={i}>
+                  <div className="font-serif text-5xl md:text-7xl lg:text-8xl text-ink-900 tracking-tight">{stat.num}</div>
+                  <div className="mt-3 text-xs font-mono uppercase tracking-widest text-ink-400">{stat.label}</div>
+                </div>
+              ))}
             </div>
-          </div>
-        </section>
-      )}
-
-      {!intro && (
-        <section className="pb-20">
-          <div className="container">
-            <div className="card max-w-4xl mx-auto text-center py-16">
-              <p className="text-gray-500">
-                公司简介尚未填写，请在后台 → 站点设置 → 公司信息中编辑
-              </p>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* 数据 */}
-      <section className="pb-20">
-        <div className="container">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-            <Stat number={founded ? `${new Date().getFullYear() - parseInt(founded)}+` : '多年'} label="行业经验" />
-            <Stat number="2" label="主营产品线" />
-            <Stat number="100%" label="源头工厂" />
-            <Stat number="24h" label="响应速度" />
-          </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* 工厂相册 */}
       {factoryImages.length > 0 && (
-        <section className="pb-20">
+        <section className="section">
           <div className="container">
-            <div className="text-center mb-12">
-              <h2 className="heading-2 mb-3">工厂实景</h2>
-              <p className="text-gray-500">真实的生产环境，欢迎实地参观</p>
-            </div>
-            <GalleryGrid images={factoryImages} />
+            <Reveal>
+              <SectionLabel number="02">工厂实景</SectionLabel>
+              <h2 className="heading-2 mt-6 max-w-2xl text-balance">
+                眼见为实 <br /><span className="italic font-light text-brand-600">欢迎实地参观。</span>
+              </h2>
+            </Reveal>
+            <Reveal delay={0.1}><GalleryGrid images={factoryImages} /></Reveal>
           </div>
         </section>
       )}
 
-      {/* 团队 */}
       {teamImages.length > 0 && (
-        <section className="pb-20">
+        <section className="section bg-bone-100 border-y border-ink-100">
           <div className="container">
-            <div className="text-center mb-12">
-              <h2 className="heading-2 mb-3">团队风采</h2>
-            </div>
-            <GalleryGrid images={teamImages} />
+            <Reveal>
+              <SectionLabel number="03">团队风采</SectionLabel>
+              <h2 className="heading-2 mt-6 text-balance">
+                匠人之手 <br /><span className="italic font-light text-brand-600">温度可见。</span>
+              </h2>
+            </Reveal>
+            <Reveal delay={0.1}><GalleryGrid images={teamImages} /></Reveal>
           </div>
         </section>
       )}
 
-      {/* 资质 */}
       {certImages.length > 0 && (
-        <section className="pb-20">
+        <section className="section">
           <div className="container">
-            <div className="text-center mb-12">
-              <h2 className="heading-2 mb-3">资质荣誉</h2>
-            </div>
-            <GalleryGrid images={certImages} />
+            <Reveal>
+              <SectionLabel number="04">资质荣誉</SectionLabel>
+              <h2 className="heading-2 mt-6 text-balance">
+                每一份证书 <br /><span className="italic font-light text-brand-600">都是一份承诺。</span>
+              </h2>
+            </Reveal>
+            <Reveal delay={0.1}><GalleryGrid images={certImages} /></Reveal>
           </div>
         </section>
       )}
-    </div>
-  )
-}
-
-function Stat({ number, label }: { number: string; label: string }) {
-  return (
-    <div className="card text-center">
-      <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-brand-400 to-gold-500 bg-clip-text text-transparent">
-        {number}
-      </div>
-      <div className="text-sm text-gray-500 mt-2">{label}</div>
     </div>
   )
 }
 
 function GalleryGrid({ images }: { images: { id: number; imageUrl: string; title: string | null }[] }) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className="mt-10 md:mt-16 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
       {images.map((img) => (
-        <div key={img.id} className="aspect-square rounded-xl overflow-hidden bg-gray-100 group">
+        <div key={img.id} className="aspect-square overflow-hidden bg-ink-100 group relative">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={img.imageUrl}
-            alt={img.title || ''}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-          />
+          <img src={img.imageUrl} alt={img.title || ''} className="w-full h-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-110" />
+          <div className="absolute inset-0 bg-noise opacity-10 mix-blend-overlay pointer-events-none" />
         </div>
       ))}
     </div>

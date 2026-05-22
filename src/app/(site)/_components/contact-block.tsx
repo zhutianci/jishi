@@ -5,11 +5,12 @@ import type { SiteSettingsMap } from '@/lib/settings'
 
 type Props = {
   settings: SiteSettingsMap
-  prefix: string // contact.huangwei or contact.zhusuting
+  prefix: string
   productLine: string
+  productLabel?: string
 }
 
-export function ContactBlock({ settings, prefix, productLine }: Props) {
+export function ContactBlock({ settings, prefix, productLine, productLabel }: Props) {
   const [qrOpen, setQrOpen] = useState(false)
   const name = settings[`${prefix}.name`] || ''
   const phone = settings[`${prefix}.phone`] || ''
@@ -18,66 +19,62 @@ export function ContactBlock({ settings, prefix, productLine }: Props) {
 
   return (
     <>
-      <div className="card !p-5 space-y-3">
-        <div className="text-sm text-gray-600">{productLine}业务联系人</div>
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-lg font-semibold">
-            {name?.[0] || '?'}
-          </div>
-          <div>
-            <div className="font-semibold">{name || '负责人'}</div>
-            <div className="text-xs text-gray-500">{productLine}业务专员</div>
-          </div>
+      <div className="flex flex-col">
+        <div className="text-xs font-mono uppercase tracking-widest text-ink-400 mb-6">
+          {productLabel || `${productLine} 业务`}
         </div>
 
-        <div className="space-y-2 text-sm">
+        <h3 className="font-serif text-4xl md:text-5xl text-ink-900 mb-2">
+          {name || '负责人'}
+        </h3>
+        <div className="text-sm text-ink-400 mb-8">{productLine}业务专员</div>
+
+        <div className="space-y-4 mb-8">
           {phone && (
-            <div className="flex items-center gap-2">
-              <span className="text-gray-500">📞 电话</span>
-              <a href={`tel:${phone}`} className="text-brand-600 hover:underline">{phone}</a>
+            <div className="flex items-baseline gap-4">
+              <span className="w-16 shrink-0 text-xs font-mono uppercase tracking-widest text-ink-400">电话</span>
+              <a href={`tel:${phone}`} className="text-link text-lg text-ink-800">{phone}</a>
             </div>
           )}
           {wechat && (
-            <div className="flex items-center gap-2">
-              <span className="text-gray-500">💬 微信号</span>
-              <span className="text-gray-800">{wechat}</span>
+            <div className="flex items-baseline gap-4">
+              <span className="w-16 shrink-0 text-xs font-mono uppercase tracking-widest text-ink-400">微信</span>
+              <span className="text-lg text-ink-800">{wechat}</span>
             </div>
           )}
         </div>
 
-        <div className="flex gap-2 pt-2">
+        <div className="flex flex-wrap gap-3">
           {qr && (
-            <button onClick={() => setQrOpen(true)} className="btn-primary flex-1 text-sm !py-2.5">
+            <button onClick={() => setQrOpen(true)} className="btn-primary text-sm">
               扫码加微信
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
             </button>
           )}
           {phone && (
-            <a href={`tel:${phone}`} className="btn-secondary flex-1 text-sm !py-2.5">
-              拨打电话
-            </a>
+            <a href={`tel:${phone}`} className="btn-secondary text-sm">拨打电话</a>
           )}
         </div>
 
         {!phone && !qr && (
-          <p className="text-xs text-gray-400 italic">联系方式尚未在后台配置</p>
+          <p className="text-sm text-ink-400 italic">联系方式尚未在后台配置</p>
         )}
       </div>
 
       {qrOpen && qr && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
-          onClick={() => setQrOpen(false)}
-        >
-          <div
-            className="bg-white rounded-3xl p-6 max-w-sm w-full text-center text-gray-900"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h3 className="text-lg font-bold mb-2">{name} 的微信</h3>
-            <p className="text-sm text-gray-600 mb-4">长按二维码识别或扫一扫</p>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink-900/80 backdrop-blur-sm" onClick={() => setQrOpen(false)}>
+          <div className="bg-bone-50 p-8 max-w-sm w-full text-center" onClick={(e) => e.stopPropagation()}>
+            <div className="text-xs font-mono uppercase tracking-widest text-ink-400 mb-2">微信 · WeChat</div>
+            <h3 className="font-serif text-2xl text-ink-900 mb-1">{name}</h3>
+            <p className="text-sm text-ink-400 mb-6">长按二维码识别 / 扫一扫</p>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={qr} alt="微信二维码" className="w-full rounded-xl" />
-            {wechat && <p className="mt-4 text-sm text-gray-600">微信号：<span className="font-semibold">{wechat}</span></p>}
-            <button onClick={() => setQrOpen(false)} className="mt-4 px-6 py-2 rounded-full bg-gray-900 text-white hover:bg-gray-800">关闭</button>
+            <img src={qr} alt="微信二维码" className="w-full" />
+            {wechat && (
+              <p className="mt-6 text-sm text-ink-700">微信号 <span className="font-medium">{wechat}</span></p>
+            )}
+            <button onClick={() => setQrOpen(false)} className="mt-6 text-xs font-mono uppercase tracking-widest text-ink-400 hover:text-ink-900">关闭</button>
           </div>
         </div>
       )}

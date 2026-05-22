@@ -6,14 +6,14 @@ export function CaseGallery({ images }: { images: string[] }) {
   const [active, setActive] = useState(0)
   const [lightbox, setLightbox] = useState(false)
   if (images.length === 0) {
-    return <div className="aspect-video rounded-2xl bg-gray-100 skeleton" />
+    return <div className="aspect-video rounded-2xl bg-bone-100 skeleton" />
   }
 
   return (
     <>
       <div className="space-y-3">
         <div
-          className="aspect-video rounded-2xl overflow-hidden bg-gray-100 cursor-zoom-in"
+          className="aspect-video rounded-2xl overflow-hidden bg-bone-100 cursor-zoom-in"
           onClick={() => setLightbox(true)}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -26,7 +26,7 @@ export function CaseGallery({ images }: { images: string[] }) {
                 key={i}
                 onClick={() => setActive(i)}
                 className={`aspect-square rounded-lg overflow-hidden border-2 transition-colors ${
-                  i === active ? 'border-brand-500' : 'border-gray-200 hover:border-white/30'
+                  i === active ? 'border-brand-500' : 'border-ink-100 hover:border-white/30'
                 }`}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}

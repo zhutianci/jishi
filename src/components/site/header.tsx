@@ -7,12 +7,12 @@ import { cn } from '@/lib/utils'
 import type { SiteSettingsMap } from '@/lib/settings'
 
 const navLinks = [
-  { href: '/', label: '首页' },
-  { href: '/products', label: '产品中心' },
-  { href: '/cases', label: '案例展示' },
-  { href: '/craft', label: '工艺优势' },
-  { href: '/about', label: '关于我们' },
-  { href: '/contact', label: '联系我们' },
+  { href: '/', label: '首页', en: 'Home' },
+  { href: '/products', label: '产品', en: 'Products' },
+  { href: '/cases', label: '案例', en: 'Cases' },
+  { href: '/craft', label: '工艺', en: 'Craft' },
+  { href: '/about', label: '关于', en: 'About' },
+  { href: '/contact', label: '联系', en: 'Contact' },
 ]
 
 export function Header({ settings }: { settings: SiteSettingsMap }) {
@@ -20,7 +20,6 @@ export function Header({ settings }: { settings: SiteSettingsMap }) {
   const [scrolled, setScrolled] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
 
-  // 首页 Hero 在顶部时透明
   const isHome = pathname === '/'
   const transparent = isHome && !scrolled
 
@@ -31,7 +30,6 @@ export function Header({ settings }: { settings: SiteSettingsMap }) {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // 选中项自动滚动到中间（移动端横向滚动条）
   useEffect(() => {
     const scroller = scrollRef.current
     if (!scroller) return
@@ -47,24 +45,28 @@ export function Header({ settings }: { settings: SiteSettingsMap }) {
   return (
     <header
       className={cn(
-        'fixed top-0 inset-x-0 z-40 transition-all duration-300',
+        'fixed top-0 inset-x-0 z-40 transition-all duration-500',
         transparent
-          ? 'bg-transparent text-white'
-          : 'bg-white/95 backdrop-blur-md border-b border-gray-200 text-gray-900 shadow-sm'
+          ? 'bg-transparent text-bone-50'
+          : 'bg-bone-50/90 backdrop-blur-xl border-b border-ink-100 text-ink-900'
       )}
     >
-      {/* 顶部主栏：Logo + 联系按钮 */}
+      {/* 主栏 */}
       <div className="container flex items-center justify-between h-14 md:h-20">
-        <Link href="/" className="flex items-center gap-2.5">
-          <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center font-bold md:text-lg text-white">
-            吉
-          </div>
-          <span className={cn('font-semibold text-base md:text-lg', transparent && 'drop-shadow')}>
-            {shortName}
+        {/* Logo — 衬线品牌字 */}
+        <Link href="/" className="flex items-center gap-3 group">
+          <span className="font-serif text-2xl md:text-3xl font-medium tracking-tight">
+            吉狮
+          </span>
+          <span className={cn(
+            'hidden sm:inline-block font-mono text-[10px] uppercase tracking-widest',
+            transparent ? 'text-bone-50/60' : 'text-ink-400'
+          )}>
+            {shortName === '吉狮汽饰' ? 'Auto Atelier' : shortName}
           </span>
         </Link>
 
-        {/* 桌面端：水平导航在主栏中 */}
+        {/* 桌面端导航 */}
         <nav className="hidden lg:flex items-center gap-1">
           {navLinks.map((link) => {
             const active = link.href === '/' ? pathname === '/' : pathname.startsWith(link.href)
@@ -73,36 +75,48 @@ export function Header({ settings }: { settings: SiteSettingsMap }) {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  'px-4 py-2 rounded-full text-sm transition-colors',
+                  'group relative px-4 py-2 text-sm transition-colors duration-300',
                   transparent
-                    ? active
-                      ? 'text-white bg-white/15 backdrop-blur-sm'
-                      : 'text-white/85 hover:text-white hover:bg-white/10'
-                    : active
-                      ? 'text-brand-600 bg-brand-50'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                    ? active ? 'text-bone-50' : 'text-bone-50/70 hover:text-bone-50'
+                    : active ? 'text-ink-900' : 'text-ink-400 hover:text-ink-900'
                 )}
               >
-                {link.label}
+                <span className="relative">
+                  {link.label}
+                  <span
+                    className={cn(
+                      'absolute -bottom-1 left-0 h-px bg-current transition-all duration-500',
+                      active ? 'w-full' : 'w-0 group-hover:w-full'
+                    )}
+                  />
+                </span>
               </Link>
             )
           })}
         </nav>
 
-        {/* 联系按钮（桌面端右侧） */}
-        <Link
-          href="/contact"
-          className="hidden md:inline-flex btn-primary !py-2 !px-4 text-sm"
-        >
-          联系我们
-        </Link>
-
-        {/* 移动端右侧：联系图标按钮 */}
+        {/* 桌面端右侧 CTA */}
         <Link
           href="/contact"
           className={cn(
-            'md:hidden inline-flex items-center justify-center w-9 h-9 rounded-full',
-            transparent ? 'bg-white/15 backdrop-blur-sm text-white' : 'bg-brand-50 text-brand-600'
+            'hidden md:inline-flex items-center gap-2 text-sm font-medium px-5 py-2.5 rounded-full transition-all duration-500',
+            transparent
+              ? 'bg-bone-50 text-ink-900 hover:bg-brand-400 hover:text-bone-50 hover:gap-3'
+              : 'bg-ink-900 text-bone-50 hover:bg-brand-600 hover:gap-3'
+          )}
+        >
+          预约咨询
+          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </Link>
+
+        {/* 移动端右侧：电话图标 */}
+        <Link
+          href="/contact"
+          className={cn(
+            'md:hidden inline-flex items-center justify-center w-10 h-10 rounded-full transition-colors',
+            transparent ? 'bg-bone-50/15 text-bone-50' : 'bg-ink-900 text-bone-50'
           )}
           aria-label="联系我们"
         >
@@ -112,15 +126,15 @@ export function Header({ settings }: { settings: SiteSettingsMap }) {
         </Link>
       </div>
 
-      {/* 移动端/平板：始终可见的水平滚动导航条 */}
+      {/* 移动端持久导航条 */}
       <div
         ref={scrollRef}
         className={cn(
           'lg:hidden overflow-x-auto scrollbar-hide border-t',
-          transparent ? 'border-white/15' : 'border-gray-200'
+          transparent ? 'border-bone-50/10' : 'border-ink-100'
         )}
       >
-        <nav className="flex items-center gap-1 px-3 py-2 min-w-max">
+        <nav className="flex items-center gap-1 px-4 py-2 min-w-max">
           {navLinks.map((link) => {
             const active = link.href === '/' ? pathname === '/' : pathname.startsWith(link.href)
             return (
@@ -129,17 +143,27 @@ export function Header({ settings }: { settings: SiteSettingsMap }) {
                 href={link.href}
                 data-active={active}
                 className={cn(
-                  'shrink-0 px-3.5 py-1.5 rounded-full text-sm whitespace-nowrap transition-colors',
+                  'shrink-0 px-3.5 py-1.5 text-sm whitespace-nowrap transition-all duration-300',
                   transparent
                     ? active
-                      ? 'bg-white text-brand-700 font-medium'
-                      : 'text-white/90 hover:bg-white/15'
+                      ? 'text-bone-50 font-medium'
+                      : 'text-bone-50/70'
                     : active
-                      ? 'bg-brand-600 text-white font-medium'
-                      : 'text-gray-700 hover:bg-gray-100'
+                      ? 'text-ink-900 font-medium'
+                      : 'text-ink-400'
                 )}
               >
-                {link.label}
+                <span className="relative">
+                  {link.label}
+                  {active && (
+                    <span
+                      className={cn(
+                        'absolute -bottom-1 left-0 right-0 h-px',
+                        transparent ? 'bg-bone-50' : 'bg-ink-900'
+                      )}
+                    />
+                  )}
+                </span>
               </Link>
             )
           })}

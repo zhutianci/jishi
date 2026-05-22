@@ -19,7 +19,7 @@ export function HeroSection({ slides }: { slides: Slide[] }) {
 
   useEffect(() => {
     if (total <= 1) return
-    const t = setInterval(() => setIdx((i) => (i + 1) % total), 6000)
+    const t = setInterval(() => setIdx((i) => (i + 1) % total), 7000)
     return () => clearInterval(t)
   }, [total])
 
@@ -28,16 +28,15 @@ export function HeroSection({ slides }: { slides: Slide[] }) {
   const hasImage = !!current.imageUrl
 
   return (
-    // 移动端高度更紧凑（不再吞屏一整屏，便于看到下方内容），桌面端保持沉浸式
-    <section className="relative h-[70vh] min-h-[460px] max-h-[640px] md:h-screen md:min-h-[600px] md:max-h-[900px] overflow-hidden text-white">
+    <section className="relative h-[88vh] min-h-[560px] md:h-screen md:min-h-[640px] max-h-[960px] overflow-hidden text-bone-50">
       {/* 背景 */}
       <AnimatePresence mode="wait">
         <motion.div
           key={current.id}
-          initial={{ opacity: 0, scale: 1.05 }}
+          initial={{ opacity: 0, scale: 1.08 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1.2 }}
+          transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0"
         >
           {hasImage ? (
@@ -45,64 +44,108 @@ export function HeroSection({ slides }: { slides: Slide[] }) {
             <img
               src={current.imageUrl}
               alt=""
-              // object-cover 在手机上会裁掉很多；用 object-position center 居中裁剪
-              // 由于手机屏幕窄高，hero 高度也降低，图片裁切就不那么夸张了
               className="w-full h-full object-cover object-center"
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-brand-800 via-brand-900 to-stone-900" />
+            <div className="w-full h-full bg-gradient-to-br from-ink-700 via-brand-900 to-ink-900" />
           )}
         </motion.div>
       </AnimatePresence>
 
-      {/* 暗色蒙版 */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/20" />
+      {/* 蒙版：底部强渐变保证文字可读 */}
+      <div className="absolute inset-0 bg-gradient-to-t from-ink-900/90 via-ink-900/30 to-ink-900/40" />
+      {/* 噪点 */}
+      <div className="absolute inset-0 bg-noise opacity-[0.18] mix-blend-overlay pointer-events-none" />
 
-      {/* 内容：移动端从底部偏上开始（与暗蒙版深处对齐，可读性好） */}
-      <div className="relative h-full flex items-end md:items-center pb-16 md:pb-0">
+      {/* 顶部刻度线 */}
+      <div className="absolute top-0 inset-x-0 h-px bg-bone-50/10" />
+
+      {/* 左侧 vertical label */}
+      <div className="hidden md:flex absolute left-6 lg:left-10 top-1/2 -translate-y-1/2 -rotate-90 origin-left items-center gap-3 text-[10px] uppercase tracking-widest text-bone-50/60 font-mono">
+        <span className="inline-block w-8 h-px bg-bone-50/40" />
+        Guanyun · Jiangsu · Since 2020
+      </div>
+
+      {/* 右侧编号 */}
+      <div className="absolute top-6 md:top-10 right-5 md:right-10 font-mono text-[10px] md:text-xs tracking-widest text-bone-50/60">
+        {String(idx + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+      </div>
+
+      {/* 内容：底部对齐 */}
+      <div className="relative h-full flex items-end pb-20 md:pb-32">
         <div className="container">
           <AnimatePresence mode="wait">
             <motion.div
               key={current.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-              className="max-w-3xl"
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              className="max-w-4xl"
             >
+              {/* 小眼标签 */}
+              <div className="flex items-center gap-3 text-[10px] md:text-xs uppercase tracking-widest text-brand-300 mb-5 md:mb-8 font-mono">
+                <span className="inline-block w-8 h-px bg-brand-400" />
+                灌云吉狮 · 汽车饰品工坊
+              </div>
+
+              {/* 大标题（衬线） */}
               {current.title && (
-                <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight mb-3 md:mb-6 text-white drop-shadow">
+                <h1 className="font-serif font-medium text-[2.6rem] sm:text-6xl md:text-8xl lg:text-9xl leading-[1.02] tracking-[-0.03em] text-bone-50 text-balance">
                   {current.title}
                 </h1>
               )}
+
+              {/* 副标题 */}
               {current.subtitle && (
-                <p className="text-base sm:text-lg md:text-xl text-white/85 mb-5 md:mb-8 max-w-2xl leading-relaxed drop-shadow line-clamp-3">
+                <p className="mt-6 md:mt-10 max-w-xl text-base sm:text-lg md:text-xl text-bone-100/85 leading-relaxed">
                   {current.subtitle}
                 </p>
               )}
-              {current.ctaText && current.ctaLink && (
-                <Link href={current.ctaLink} className="btn-primary text-sm md:text-base">
-                  {current.ctaText} →
-                </Link>
-              )}
+
+              {/* CTA + 滚动提示 */}
+              <div className="mt-8 md:mt-12 flex items-center gap-6">
+                {current.ctaText && current.ctaLink && (
+                  <Link
+                    href={current.ctaLink}
+                    className="inline-flex items-center gap-3 rounded-full px-7 py-3.5 bg-bone-50 text-ink-900 text-sm font-medium hover:bg-brand-400 hover:text-bone-50 transition-all duration-500 hover:gap-4"
+                  >
+                    {current.ctaText}
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </Link>
+                )}
+              </div>
             </motion.div>
           </AnimatePresence>
         </div>
       </div>
 
-      {/* 指示器 */}
-      {total > 1 && (
-        <div className="absolute bottom-4 md:bottom-8 left-0 right-0 flex justify-center gap-2 z-10">
-          {slides.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setIdx(i)}
-              className={`h-1 rounded-full transition-all ${i === idx ? 'w-10 md:w-12 bg-white' : 'w-5 md:w-6 bg-white/40 hover:bg-white/70'}`}
-              aria-label={`轮播 ${i + 1}`}
-            />
-          ))}
+      {/* 底部刻度尺：左指示器 + 右滚动提示 */}
+      <div className="absolute bottom-0 inset-x-0 border-t border-bone-50/10">
+        <div className="container flex items-center justify-between py-4 md:py-5 text-[10px] md:text-xs font-mono uppercase tracking-widest text-bone-50/70">
+          {/* 轮播指示器 */}
+          {total > 1 ? (
+            <div className="flex items-center gap-2">
+              {slides.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setIdx(i)}
+                  className={`h-px transition-all duration-500 ${i === idx ? 'w-10 md:w-14 bg-bone-50' : 'w-5 md:w-7 bg-bone-50/30 hover:bg-bone-50/60'}`}
+                  aria-label={`Slide ${i + 1}`}
+                />
+              ))}
+            </div>
+          ) : (
+            <span>Scroll · 探索</span>
+          )}
+          <span className="hidden sm:inline-flex items-center gap-2">
+            滚动浏览
+            <span className="inline-block w-px h-3 bg-bone-50/60 animate-pulse" />
+          </span>
         </div>
-      )}
+      </div>
     </section>
   )
 }

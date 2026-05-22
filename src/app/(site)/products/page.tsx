@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
 import { safeJsonParse } from '@/lib/utils'
+import { Reveal } from '@/components/site/reveal'
+import { SectionLabel } from '@/components/site/section-label'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,94 +18,83 @@ export default async function ProductsPage({
   const activeCat = activeSlug ? categories.find((c) => c.slug === activeSlug) : null
 
   const products = await prisma.product.findMany({
-    where: {
-      published: true,
-      ...(activeCat ? { categoryId: activeCat.id } : {}),
-    },
+    where: { published: true, ...(activeCat ? { categoryId: activeCat.id } : {}) },
     include: { category: true },
     orderBy: [{ sortOrder: 'asc' }, { createdAt: 'desc' }],
   })
 
   return (
-    <div className="pt-28 md:pt-32 pb-12 md:pb-20">
+    <div className="pt-32 md:pt-44 pb-20 md:pb-32">
       <div className="container">
-        {/* Header */}
-        <div className="mb-12">
-          <div className="text-brand-600 mb-2">产品中心</div>
-          <h1 className="heading-1">{activeCat ? activeCat.name : '全部产品'}</h1>
-          {activeCat?.subtitle && (
-            <p className="text-gray-600 mt-3 text-lg">{activeCat.subtitle}</p>
-          )}
-        </div>
+        <Reveal><SectionLabel number="02">产品系列</SectionLabel></Reveal>
+        <Reveal delay={0.1}>
+          <h1 className="heading-1 mt-6 md:mt-10 max-w-4xl text-balance">
+            {activeCat ? activeCat.name : (<>全部产品 <br /><span className="italic font-light text-brand-600">逐件造化。</span></>)}
+          </h1>
+        </Reveal>
+        {activeCat?.subtitle && (
+          <Reveal delay={0.15}>
+            <p className="mt-6 md:mt-8 max-w-2xl text-lg md:text-xl text-ink-700 font-serif leading-relaxed">{activeCat.subtitle}</p>
+          </Reveal>
+        )}
 
-        {/* 分类筛选 */}
-        <div className="flex flex-wrap gap-2 mb-10">
-          <Link
-            href="/products"
-            className={`px-5 py-2 rounded-full text-sm transition-colors ${
-              !activeSlug ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-            }`}
-          >
-            全部
-          </Link>
-          {categories.map((c) => (
-            <Link
-              key={c.id}
-              href={`/products?cat=${c.slug}`}
-              className={`px-5 py-2 rounded-full text-sm transition-colors ${
-                activeSlug === c.slug ? 'bg-brand-500 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              {c.name}
-            </Link>
-          ))}
-        </div>
-
-        {/* 产品网格 */}
-        {products.length === 0 ? (
-          <div className="card text-center py-20 text-gray-500">
-            该分类暂无产品
+        <Reveal delay={0.2}>
+          <div className="mt-12 md:mt-16 flex items-center gap-px overflow-x-auto scrollbar-hide border-y border-ink-100">
+            <FilterPill href="/products" active={!activeSlug} label="全部" />
+            {categories.map((c) => (
+              <FilterPill key={c.id} href={`/products?cat=${c.slug}`} active={activeSlug === c.slug} label={c.name} />
+            ))}
           </div>
+        </Reveal>
+
+        {products.length === 0 ? (
+          <div className="mt-20 text-center text-ink-400 italic">该分类暂无产品</div>
         ) : (
-          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-6">
-            {products.map((p) => {
+          <div className="mt-12 md:mt-20 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-12 md:gap-x-8 md:gap-y-20">
+            {products.map((p, i) => {
               const features = safeJsonParse<string[]>(p.features, [])
               return (
-                <Link
-                  key={p.id}
-                  href={`/products/${p.id}`}
-                  className="group card !p-4 hover:border-brand-500/50 transition-all hover:-translate-y-1"
-                >
-                  <div className="aspect-square rounded-lg bg-gray-100 overflow-hidden mb-4">
-                    {p.coverImage ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={p.coverImage}
-                        alt={p.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    ) : (
-                      <div className="w-full h-full skeleton" />
-                    )}
-                  </div>
-                  <div className="text-xs text-brand-600 mb-1">{p.category.name}</div>
-                  <div className="font-medium line-clamp-2 mb-2">{p.name}</div>
-                  {p.shortDesc && <div className="text-xs text-gray-500 line-clamp-2 mb-2">{p.shortDesc}</div>}
-                  {features.length > 0 && (
-                    <div className="flex flex-wrap gap-1">
-                      {features.slice(0, 2).map((f, i) => (
-                        <span key={i} className="px-2 py-0.5 rounded-full bg-gray-100 text-xs text-gray-600">
-                          {f}
-                        </span>
-                      ))}
+                <Reveal key={p.id} delay={(i % 4) * 0.08}>
+                  <Link href={`/products/${p.id}`} className="group block">
+                    <div className="aspect-[4/5] bg-ink-100 overflow-hidden mb-4 md:mb-6 relative">
+                      {p.coverImage ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={p.coverImage} alt={p.name} className="w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105" />
+                      ) : (
+                        <div className="w-full h-full skeleton" />
+                      )}
+                      <div className="absolute inset-0 bg-noise opacity-10 mix-blend-overlay pointer-events-none" />
+                      <span className="absolute top-3 left-3 md:top-4 md:left-4 text-[10px] font-mono uppercase tracking-widest text-bone-50/90 bg-ink-900/40 backdrop-blur px-2 py-0.5">
+                        {p.category.name}
+                      </span>
                     </div>
-                  )}
-                </Link>
+                    <h3 className="font-serif text-lg md:text-2xl text-ink-900 leading-snug group-hover:text-brand-600 transition-colors duration-500">{p.name}</h3>
+                    {p.shortDesc && <p className="mt-2 text-sm text-ink-400 line-clamp-2">{p.shortDesc}</p>}
+                    {features.length > 0 && (
+                      <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-[11px] font-mono uppercase tracking-wider text-ink-400">
+                        {features.slice(0, 2).map((f, fi) => (<span key={fi}>· {f}</span>))}
+                      </div>
+                    )}
+                  </Link>
+                </Reveal>
               )
             })}
           </div>
         )}
       </div>
     </div>
+  )
+}
+
+function FilterPill({ href, active, label }: { href: string; active: boolean; label: string }) {
+  return (
+    <Link
+      href={href}
+      className={`shrink-0 px-5 py-4 md:px-6 md:py-5 text-sm md:text-base font-serif transition-colors ${
+        active ? 'text-ink-900 bg-bone-100' : 'text-ink-400 hover:text-ink-900'
+      }`}
+    >
+      {label}
+    </Link>
   )
 }
