@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
 import { safeJsonParse } from '@/lib/utils'
+import { ComparisonTable } from './_comparison'
 
 export const dynamic = 'force-dynamic'
 
@@ -127,6 +128,11 @@ export default async function ProductsPage({
               )
             })}
           </div>
+        )}
+
+        {/* 产品对比表（同分类下 ≥2 个产品时显示） */}
+        {activeCat && products.length >= 2 && (
+          <ComparisonTable products={products} categoryName={activeCat.name} />
         )}
       </div>
     </div>
