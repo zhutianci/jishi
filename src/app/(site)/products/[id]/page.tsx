@@ -65,6 +65,16 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
               <p className="text-gray-600 text-lg mb-6">{product.shortDesc}</p>
             )}
 
+            {/* 价格 */}
+            {product.priceText && (
+              <div className="mb-6 pb-6 border-b border-gray-100">
+                <div className="text-xs text-gray-500 mb-1">参考价格</div>
+                <div className="text-2xl md:text-3xl text-brand-600 font-semibold">
+                  {product.priceText}
+                </div>
+              </div>
+            )}
+
             {/* 卖点 */}
             {features.length > 0 && (
               <div className="space-y-3 mb-8 p-5 rounded-2xl bg-gray-50 border border-gray-100">

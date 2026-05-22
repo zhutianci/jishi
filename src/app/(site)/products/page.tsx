@@ -88,6 +88,11 @@ export default async function ProductsPage({
                   </div>
                   <div className="text-xs text-brand-600 mb-1">{p.category.name}</div>
                   <div className="font-medium line-clamp-2 mb-2">{p.name}</div>
+                  {p.priceText && (
+                    <div className="text-base md:text-lg text-brand-600 font-semibold mb-2 line-clamp-1">
+                      {p.priceText}
+                    </div>
+                  )}
                   {p.shortDesc && <div className="text-xs text-gray-500 line-clamp-2 mb-2">{p.shortDesc}</div>}
                   {features.length > 0 && (
                     <div className="flex flex-wrap gap-1">

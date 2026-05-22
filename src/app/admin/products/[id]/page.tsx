@@ -23,6 +23,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
           id: p.id,
           categoryId: p.categoryId,
           name: p.name,
+          priceText: p.priceText || '',
           material: p.material || '',
           fitCarModels: p.fitCarModels || '',
           shortDesc: p.shortDesc || '',

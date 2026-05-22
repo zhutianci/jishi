@@ -8,6 +8,7 @@ export type ProductFormData = {
   id?: number
   categoryId: number | ''
   name: string
+  priceText: string
   material: string
   fitCarModels: string
   shortDesc: string
@@ -33,6 +34,7 @@ export function ProductForm({
   const [data, setData] = useState<ProductFormData>({
     categoryId: initial?.categoryId ?? '',
     name: initial?.name ?? '',
+    priceText: initial?.priceText ?? '',
     material: initial?.material ?? '',
     fitCarModels: initial?.fitCarModels ?? '',
     shortDesc: initial?.shortDesc ?? '',
@@ -115,6 +117,20 @@ export function ProductForm({
               value={data.name}
               onChange={(e) => setData({ ...data, name: e.target.value })}
               placeholder="如：全包围TPE汽车脚垫"
+            />
+          </div>
+
+          <div>
+            <label className="label">
+              价格
+              <span className="ml-2 text-xs text-gray-400 font-normal">支持任意文本，可写多个价格或备注</span>
+            </label>
+            <input
+              type="text"
+              className="input"
+              value={data.priceText}
+              onChange={(e) => setData({ ...data, priceText: e.target.value })}
+              placeholder="如：100元 / 100元或128元（具体联系客服） / 面议"
             />
           </div>
 

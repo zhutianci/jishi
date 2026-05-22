@@ -40,6 +40,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     data: {
       ...(body.categoryId && { categoryId: parseInt(body.categoryId) }),
       ...(body.name !== undefined && { name: body.name }),
+      ...(body.priceText !== undefined && { priceText: body.priceText || null }),
       ...(body.material !== undefined && { material: body.material || null }),
       ...(body.fitCarModels !== undefined && { fitCarModels: body.fitCarModels || null }),
       ...(body.shortDesc !== undefined && { shortDesc: body.shortDesc || null }),

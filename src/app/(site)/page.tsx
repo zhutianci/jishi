@@ -197,6 +197,9 @@ export default async function HomePage() {
                     </div>
                     <div className="text-xs text-brand-600 mb-1">{p.category.name}</div>
                     <div className="font-medium text-sm line-clamp-2 mb-1">{p.name}</div>
+                    {p.priceText && (
+                      <div className="text-sm text-brand-600 font-semibold mb-1 line-clamp-1">{p.priceText}</div>
+                    )}
                     {features[0] && <div className="text-xs text-gray-500 line-clamp-1">{features[0]}</div>}
                   </Link>
                 )

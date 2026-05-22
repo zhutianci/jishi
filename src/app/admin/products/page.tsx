@@ -7,6 +7,7 @@ type Product = {
   id: number
   name: string
   slug: string
+  priceText: string | null
   material: string | null
   coverImage: string | null
   published: boolean
@@ -99,6 +100,7 @@ export default function ProductsPage() {
                   <th className="p-4 font-medium">封面</th>
                   <th className="p-4 font-medium">产品名称</th>
                   <th className="p-4 font-medium">分类</th>
+                  <th className="p-4 font-medium">价格</th>
                   <th className="p-4 font-medium">材质</th>
                   <th className="p-4 font-medium">排序</th>
                   <th className="p-4 font-medium">状态</th>
@@ -118,6 +120,7 @@ export default function ProductsPage() {
                     </td>
                     <td className="p-4 font-medium">{p.name}</td>
                     <td className="p-4 text-gray-600">{p.category.name}</td>
+                    <td className="p-4 text-brand-600 font-medium whitespace-nowrap">{p.priceText || '-'}</td>
                     <td className="p-4 text-gray-600">{p.material || '-'}</td>
                     <td className="p-4 text-gray-600">{p.sortOrder}</td>
                     <td className="p-4">

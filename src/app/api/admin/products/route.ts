@@ -50,6 +50,7 @@ export async function POST(req: NextRequest) {
       categoryId: parseInt(categoryId),
       name,
       slug,
+      priceText: body.priceText || null,
       material: body.material || null,
       fitCarModels: body.fitCarModels || null,
       shortDesc: body.shortDesc || null,

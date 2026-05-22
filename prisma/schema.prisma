@@ -56,6 +56,7 @@ model Product {
 
   name           String              // 产品名称
   slug           String   @unique    // URL 友好的唯一标识
+  priceText      String?             // 价格（文本，支持任意格式，例：100元 或 100元/128元（联系客服））
   material       String?             // 材质：TPE / 真皮 / 丝圈 ...
   fitCarModels   String?             // 适配车型（逗号分隔字符串，便于检索）
   shortDesc      String?             // 简短描述（卡片用）
