@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ImageUploader, MultiImageUploader } from '@/components/image-uploader'
 
+export type SpecRow = { label: string; value: string }
+
 export type ProductFormData = {
   id?: number
   categoryId: number | ''
@@ -14,11 +16,15 @@ export type ProductFormData = {
   shortDesc: string
   description: string
   features: string[]
+  specs: SpecRow[]
   coverImage: string
   images: string[]
   published: boolean
   sortOrder: number
 }
+
+// 规格预设：方便快速填，点击直接添加
+const SPEC_PRESETS = ['材质', '工艺', '颜色', '适配', '质保', '使用寿命', '尺寸', '重量', '备注']
 
 type Category = { id: number; name: string; slug: string }
 
@@ -40,6 +46,7 @@ export function ProductForm({
     shortDesc: initial?.shortDesc ?? '',
     description: initial?.description ?? '',
     features: initial?.features ?? [],
+    specs: initial?.specs ?? [],
     coverImage: initial?.coverImage ?? '',
     images: initial?.images ?? [],
     published: initial?.published ?? true,
@@ -79,6 +86,28 @@ export function ProductForm({
 
   function removeFeature(i: number) {
     setData({ ...data, features: data.features.filter((_, idx) => idx !== i) })
+  }
+
+  function addSpec(label = '') {
+    setData({ ...data, specs: [...data.specs, { label, value: '' }] })
+  }
+
+  function updateSpec(i: number, patch: Partial<SpecRow>) {
+    const next = [...data.specs]
+    next[i] = { ...next[i], ...patch }
+    setData({ ...data, specs: next })
+  }
+
+  function removeSpec(i: number) {
+    setData({ ...data, specs: data.specs.filter((_, idx) => idx !== i) })
+  }
+
+  function moveSpec(i: number, dir: -1 | 1) {
+    const j = i + dir
+    if (j < 0 || j >= data.specs.length) return
+    const next = [...data.specs]
+    ;[next[i], next[j]] = [next[j], next[i]]
+    setData({ ...data, specs: next })
   }
 
   return (
@@ -180,7 +209,7 @@ export function ProductForm({
         </div>
 
         <div>
-          <label className="label">产品卖点（最多 5 条）</label>
+          <label className="label">产品卖点（最多 5 条，详情页"✓"列表展示）</label>
           <div className="flex gap-2 mb-2">
             <input
               type="text"
@@ -212,6 +241,68 @@ export function ProductForm({
                 <button type="button" onClick={() => removeFeature(i)} className="text-brand-600/60 hover:text-gray-900">×</button>
               </span>
             ))}
+          </div>
+        </div>
+      </div>
+
+      {/* 规格参数 */}
+      <div className="card space-y-4">
+        <div className="flex items-center justify-between border-b border-gray-100 pb-3">
+          <h3 className="font-semibold">规格参数</h3>
+          <span className="text-xs text-gray-400">详情页右侧表格展示，规范且易扫读</span>
+        </div>
+
+        {/* 已添加的规格 */}
+        {data.specs.length > 0 && (
+          <div className="space-y-2">
+            {data.specs.map((row, i) => (
+              <div key={i} className="grid grid-cols-12 gap-2 items-center">
+                <input
+                  type="text"
+                  placeholder="参数名 如：材质"
+                  className="input col-span-3"
+                  value={row.label}
+                  onChange={(e) => updateSpec(i, { label: e.target.value })}
+                />
+                <input
+                  type="text"
+                  placeholder="参数值 如：进口纳帕真皮"
+                  className="input col-span-7"
+                  value={row.value}
+                  onChange={(e) => updateSpec(i, { value: e.target.value })}
+                />
+                <div className="col-span-2 flex justify-end gap-1">
+                  <button type="button" onClick={() => moveSpec(i, -1)} disabled={i === 0} className="px-2 py-1 text-xs rounded hover:bg-gray-100 disabled:opacity-30">↑</button>
+                  <button type="button" onClick={() => moveSpec(i, 1)} disabled={i === data.specs.length - 1} className="px-2 py-1 text-xs rounded hover:bg-gray-100 disabled:opacity-30">↓</button>
+                  <button type="button" onClick={() => removeSpec(i)} className="px-2 py-1 text-xs rounded text-red-600 hover:bg-red-50">删除</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* 快速添加预设 */}
+        <div>
+          <div className="text-xs text-gray-500 mb-2">点击下方常用参数快速添加</div>
+          <div className="flex flex-wrap gap-2">
+            {SPEC_PRESETS.map((p) => (
+              <button
+                key={p}
+                type="button"
+                onClick={() => addSpec(p)}
+                disabled={data.specs.some((s) => s.label === p)}
+                className="px-3 py-1 text-xs rounded-full bg-gray-100 text-gray-700 hover:bg-brand-50 hover:text-brand-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                + {p}
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={() => addSpec()}
+              className="px-3 py-1 text-xs rounded-full bg-gray-900 text-white hover:bg-gray-700"
+            >
+              + 自定义
+            </button>
           </div>
         </div>
       </div>

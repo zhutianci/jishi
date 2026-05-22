@@ -13,6 +13,7 @@ export default function NewProductPage() {
       body: JSON.stringify({
         ...data,
         features: JSON.stringify(data.features),
+        specs: JSON.stringify(data.specs.filter((s) => s.label.trim() && s.value.trim())),
         images: JSON.stringify(data.images),
       }),
     })

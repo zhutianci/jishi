@@ -46,6 +46,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       ...(body.shortDesc !== undefined && { shortDesc: body.shortDesc || null }),
       ...(body.description !== undefined && { description: body.description || null }),
       ...(body.features !== undefined && { features: body.features || null }),
+      ...(body.specs !== undefined && { specs: body.specs || null }),
       ...(body.coverImage !== undefined && { coverImage: body.coverImage || null }),
       ...(body.images !== undefined && { images: body.images || null }),
       ...(body.published !== undefined && { published: !!body.published }),

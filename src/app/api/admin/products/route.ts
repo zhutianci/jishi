@@ -56,6 +56,7 @@ export async function POST(req: NextRequest) {
       shortDesc: body.shortDesc || null,
       description: body.description || null,
       features: body.features || null,
+      specs: body.specs || null,
       coverImage: body.coverImage || null,
       images: body.images || null,
       published: body.published !== false,

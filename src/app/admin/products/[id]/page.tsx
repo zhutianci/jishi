@@ -29,6 +29,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
           shortDesc: p.shortDesc || '',
           description: p.description || '',
           features: safeJsonParse<string[]>(p.features, []),
+          specs: safeJsonParse<{ label: string; value: string }[]>(p.specs, []),
           coverImage: p.coverImage || '',
           images: safeJsonParse<string[]>(p.images, []),
           published: p.published,
@@ -44,6 +45,7 @@ export default function EditProductPage({ params }: { params: { id: string } }) 
       body: JSON.stringify({
         ...data,
         features: JSON.stringify(data.features),
+        specs: JSON.stringify(data.specs.filter((s) => s.label.trim() && s.value.trim())),
         images: JSON.stringify(data.images),
       }),
     })
