@@ -3,7 +3,12 @@ FROM node:20-alpine AS deps
 WORKDIR /app
 RUN apk add --no-cache libc6-compat openssl
 COPY package.json package-lock.json* ./
-RUN npm ci --prefer-offline --no-audit
+# 优先用 lockfile（npm ci 速度快、可复现），没有则降级到 npm install
+RUN if [ -f package-lock.json ]; then \
+      npm ci --prefer-offline --no-audit; \
+    else \
+      npm install --no-audit; \
+    fi
 
 # ========== 2. 构建 ==========
 FROM node:20-alpine AS builder
