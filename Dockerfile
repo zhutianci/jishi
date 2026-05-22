@@ -45,6 +45,12 @@ COPY --from=builder --chown=nextjs:nodejs /app/node_modules/prisma ./node_module
 # bcryptjs 仅在 seed.mjs 直接执行时用（standalone 已含），显式复制确保有
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/bcryptjs ./node_modules/bcryptjs
 
+# 创建 prisma 命令的 .bin 链接，使 `npx prisma` / `prisma` 能直接用
+USER root
+RUN mkdir -p /app/node_modules/.bin \
+    && ln -sf /app/node_modules/prisma/build/index.js /app/node_modules/.bin/prisma \
+    && chmod +x /app/node_modules/prisma/build/index.js
+
 # 数据库与上传目录（运行时挂 volume）
 RUN mkdir -p /app/data /app/public/uploads && chown -R nextjs:nodejs /app/data /app/public/uploads
 
